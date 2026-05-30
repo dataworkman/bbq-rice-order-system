@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+GH="${GH:-$HOME/.local/bin/gh}"
+REPO_NAME="${1:-bbq-rice-order-system}"
+
+if ! command -v "$GH" >/dev/null 2>&1; then
+  echo "GitHub CLI (gh) not found. Install: https://cli.github.com/"
+  exit 1
+fi
+
+if ! "$GH" auth status >/dev/null 2>&1; then
+  echo "GitHub login required. Run:"
+  echo "  $GH auth login"
+  echo "Then run this script again."
+  exit 1
+fi
+
+if git remote get-url origin >/dev/null 2>&1; then
+  echo "Pushing to existing remote..."
+  git push -u origin main
+else
+  echo "Creating GitHub repo: $REPO_NAME"
+  "$GH" repo create "$REPO_NAME" --source=. --public --remote=origin --push
+fi
+
+echo "Done: $("$GH" repo view --web --json url -q .url 2>/dev/null || echo "https://github.com/$("$GH" api user -q .login)/$REPO_NAME")"
