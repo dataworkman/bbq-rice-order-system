@@ -72,7 +72,14 @@ Rails.application.configure do
 
   # Allow requests from configured host (Pi IP, domain, etc.).
   config.hosts.clear if ENV["DISABLE_HOST_CHECK"] == "true"
-  config.hosts << ENV["APP_HOST"] if ENV["APP_HOST"].present?
+  if ENV["APP_HOST"].present? && ENV["DISABLE_HOST_CHECK"] != "true"
+    config.hosts << ENV["APP_HOST"]
+    config.hosts << /.*\.local\z/
+  end
+
+  config.host_authorization = {
+    exclude: ->(request) { request.path == "/up" }
+  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
