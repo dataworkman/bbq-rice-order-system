@@ -3,6 +3,11 @@ class ApplicationController < ActionController::Base
   include ErrorHandling
   include ActionView::RecordIdentifier
 
+  def self.pi_deployment?
+    Rails.env.production? && ENV["DISABLE_HOST_CHECK"] == "true"
+  end
+  private_class_method :pi_deployment?
+
   allow_browser versions: :modern unless pi_deployment?
 
   before_action :set_locale
@@ -63,9 +68,4 @@ class ApplicationController < ActionController::Base
 
     redirect_to root_path, alert: t("app.flash.admin_required")
   end
-
-  def self.pi_deployment?
-    Rails.env.production? && ENV["DISABLE_HOST_CHECK"] == "true"
-  end
-  private_class_method :pi_deployment?
 end
