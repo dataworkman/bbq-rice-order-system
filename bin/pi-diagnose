@@ -16,6 +16,15 @@ echo "=== Container env (host/ssl) ==="
 docker compose exec web printenv 2>/dev/null | grep -E 'APP_HOST|DISABLE_HOST|FORCE_SSL|RAILS_MASTER' || echo "(container not running)"
 
 echo
+echo "=== Waiting for boot (Pi can take ~60s) ==="
+for i in 1 2 3 4 5 6; do
+  code=$(curl -sS -o /dev/null -w "%{http_code}" http://127.0.0.1:3000/up 2>/dev/null || echo "000")
+  echo "attempt $i: HTTP $code"
+  if [[ "$code" == "200" ]]; then break; fi
+  sleep 10
+done
+
+echo
 echo "=== curl localhost:3000/up ==="
 curl -sS -o /dev/null -w "HTTP %{http_code}\n" http://127.0.0.1:3000/up || echo "FAILED"
 

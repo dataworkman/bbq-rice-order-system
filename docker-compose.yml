@@ -17,19 +17,22 @@ services:
       - .env.production
     environment:
       RAILS_ENV: production
+      PORT: "80"
       DISABLE_HOST_CHECK: "true"
       FORCE_SSL: "false"
       ASSUME_SSL: "false"
+    # Puma directly on :80 — Thruster proxy caused 502 on slow Pi boots.
+    command: ["./bin/rails", "server", "-b", "0.0.0.0"]
     ports:
       - "${APP_PORT:-3000}:80"
     volumes:
       - sqlite_data:/rails/storage
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/up"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 40s
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 120s
 
 volumes:
   sqlite_data:
