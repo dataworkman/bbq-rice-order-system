@@ -13,28 +13,23 @@
     <%= render "shared/locale_switcher" %>
 
     <% if logged_in? %>
-      <header class="navbar">
-        <div class="brand">
-          <%= render "shared/brand_logo", logo_path: (admin? ? admin_root_path : root_path) %>
-        </div>
-        <nav>
-          <% if current_user.owner? %>
-            <%= link_to t("app.nav.order_products"), products_path %>
-            <%= render "shared/nav_my_order" %>
-            <%= link_to t("app.nav.order_history"), orders_path %>
-            <%= link_to t("app.nav.account"), edit_account_path %>
-          <% else %>
-            <%= link_to t("app.nav.dashboard"), admin_root_path %>
-            <%= link_to t("app.nav.product_mgmt"), admin_products_path %>
-            <%= link_to t("app.nav.inventory"), admin_inventory_path %>
-            <%= link_to t("app.nav.franchises"), admin_franchises_path %>
-            <%= link_to t("app.nav.order_mgmt"), admin_orders_path %>
-            <%= link_to t("app.nav.account"), edit_account_path %>
-          <% end %>
-          <span class="user-email"><%= current_user.email %></span>
-          <%= button_to t("app.nav.logout"), logout_path, method: :delete, class: "btn btn-secondary", form: { style: "display:inline" } %>
-        </nav>
-      </header>
+      <%= render layout: "shared/navbar", locals: { logo_path: (admin? ? admin_root_path : root_path) } do %>
+        <% if current_user.owner? %>
+          <%= link_to t("app.nav.order_products"), products_path %>
+          <%= render "shared/nav_my_order" %>
+          <%= link_to t("app.nav.order_history"), orders_path %>
+          <%= link_to t("app.nav.account"), edit_account_path %>
+        <% else %>
+          <%= link_to t("app.nav.dashboard"), admin_root_path %>
+          <%= link_to t("app.nav.product_mgmt"), admin_products_path %>
+          <%= link_to t("app.nav.inventory"), admin_inventory_path %>
+          <%= link_to t("app.nav.franchises"), admin_franchises_path %>
+          <%= link_to t("app.nav.order_mgmt"), admin_orders_path %>
+          <%= link_to t("app.nav.account"), edit_account_path %>
+        <% end %>
+        <span class="user-email"><%= current_user.email %></span>
+        <%= button_to t("app.nav.logout"), logout_path, method: :delete, class: "btn btn-secondary", form: { style: "display:inline", data: { action: "click->nav#close" } } %>
+      <% end %>
     <% end %>
 
     <main class="container">

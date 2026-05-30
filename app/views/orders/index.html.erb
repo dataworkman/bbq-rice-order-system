@@ -5,7 +5,7 @@
 <% if @orders.empty? %>
   <div class="card"><p><%= t("app.orders.empty") %></p></div>
 <% else %>
-  <table>
+  <table class="stack-table">
     <thead>
       <tr>
         <th><%= t("app.orders.order_no") %></th>
@@ -18,11 +18,11 @@
     <tbody>
       <% @orders.each do |order| %>
         <tr>
-          <td>#<%= order.id %></td>
-          <td><%= l(order.created_at, format: :long) %></td>
-          <td><span class="badge badge-<%= order.status %>"><%= order.status_label %></span></td>
-          <td><%= format_money(order.total_amount) %></td>
-          <td><%= link_to t("app.orders.detail"), order_path(order) %></td>
+          <td data-label="<%= t("app.orders.order_no") %>">#<%= order.id %></td>
+          <td data-label="<%= t("app.orders.datetime") %>"><%= l(order.created_at, format: :long) %></td>
+          <td data-label="<%= t("app.orders.status") %>"><span class="badge badge-<%= order.status %>"><%= order.status_label %></span></td>
+          <td data-label="<%= t("app.orders.total") %>"><%= format_money(order.total_amount) %></td>
+          <td class="stack-table__actions" data-label=""><%= link_to t("app.orders.detail"), order_path(order), class: "btn btn-secondary btn-sm" %></td>
         </tr>
       <% end %>
     </tbody>

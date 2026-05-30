@@ -9,7 +9,7 @@
   <p><strong><%= t("app.orders.status") %>:</strong> <span class="badge badge-<%= @order.status %>"><%= @order.status_label %></span></p>
 </div>
 
-<table>
+<table class="stack-table">
   <thead>
       <tr>
         <th><%= t("app.products.item_number") %></th>
@@ -22,11 +22,11 @@
     <tbody>
       <% @order.order_items.includes(:product).each do |item| %>
         <tr>
-          <td><code><%= item.display_item_number %></code></td>
-          <td><%= item.product.name %></td>
-        <td><%= format_money(item.unit_price) %></td>
-        <td><%= item.quantity %><%= item.product.unit %></td>
-        <td><%= format_money(item.subtotal) %></td>
+          <td data-label="<%= t("app.products.item_number") %>"><code><%= item.display_item_number %></code></td>
+          <td data-label="<%= t("app.cart.item") %>"><%= item.product.name %></td>
+        <td data-label="<%= t("app.cart.unit_price") %>"><%= format_money(item.unit_price) %></td>
+        <td data-label="<%= t("app.cart.quantity") %>"><%= item.quantity %><%= item.product.unit %></td>
+        <td data-label="<%= t("app.cart.subtotal") %>"><%= format_money(item.subtotal) %></td>
       </tr>
     <% end %>
   </tbody>
@@ -34,8 +34,10 @@
 
 <div class="card">
   <p><strong><%= t("app.cart.total", amount: format_money(@order.total_amount)) %></strong></p>
+  <div class="actions actions--stack-mobile">
   <% if @order.cancellable? %>
     <%= button_to t("app.orders.cancel"), order_path(@order), method: :delete, class: "btn btn-danger", data: { turbo_confirm: t("app.orders.confirm_cancel") } %>
   <% end %>
   <%= link_to t("app.orders.list"), orders_path, class: "btn btn-secondary" %>
+  </div>
 </div>

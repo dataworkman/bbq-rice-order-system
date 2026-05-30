@@ -1,0 +1,21 @@
+<header class="navbar" data-controller="nav">
+  <div class="navbar__bar">
+    <div class="brand">
+      <%= render "shared/brand_logo", logo_path: local_assigns.fetch(:logo_path) %>
+    </div>
+    <button type="button"
+            class="nav-toggle"
+            data-nav-target="toggle"
+            data-action="nav#toggle"
+            aria-expanded="false"
+            aria-controls="main-nav">
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="nav-toggle__bar"></span>
+      <span class="visually-hidden"><%= t("app.nav.menu") %></span>
+    </button>
+  </div>
+  <nav id="main-nav" class="navbar__nav" data-nav-target="menu" data-action="click->nav#close">
+    <%= yield %>
+  </nav>
+</header>

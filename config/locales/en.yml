@@ -47,6 +47,7 @@ en:
       users: Accounts
       account: My account
       inventory: Inventory
+      menu: Menu
     locale:
       ko: 한국어
       en: English

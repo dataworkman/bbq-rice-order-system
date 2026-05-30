@@ -6,7 +6,7 @@
       <p><%= t("app.cart.empty_summary") %></p>
     </div>
   <% else %>
-    <table class="order-summary-table">
+    <table class="order-summary-table stack-table">
       <thead>
         <tr>
           <th><%= t("app.products.item_number") %></th>
@@ -22,18 +22,18 @@
           <% product = @cart_products[product_id] %>
           <% next unless product %>
           <tr>
-            <td><code><%= product.item_number %></code></td>
-            <td><%= product.name %></td>
-            <td><%= format_money(product.unit_price) %></td>
-            <td>
-              <%= form_with url: cart_path, method: :patch, class: "inline-form", data: { turbo_stream: true } do %>
+            <td data-label="<%= t("app.products.item_number") %>"><code><%= product.item_number %></code></td>
+            <td data-label="<%= t("app.cart.item") %>"><%= product.name %></td>
+            <td data-label="<%= t("app.cart.unit_price") %>"><%= format_money(product.unit_price) %></td>
+            <td data-label="<%= t("app.cart.quantity") %>">
+              <%= form_with url: cart_path, method: :patch, class: "inline-form stack-table__qty-form", data: { turbo_stream: true } do %>
                 <%= hidden_field_tag :product_id, product.id %>
-                <%= number_field_tag :quantity, quantity, min: 0, max: product.stock %>
+                <%= number_field_tag :quantity, quantity, min: 0, max: product.stock, aria: { label: t("app.cart.quantity") } %>
                 <%= submit_tag t("app.cart.update"), class: "btn btn-secondary btn-sm" %>
               <% end %>
             </td>
-            <td><%= format_money(product.unit_price * quantity.to_i) %></td>
-            <td>
+            <td data-label="<%= t("app.cart.subtotal") %>"><%= format_money(product.unit_price * quantity.to_i) %></td>
+            <td class="stack-table__actions" data-label="">
               <%= button_to "×", cart_path, method: :patch, params: { product_id: product.id, quantity: 0 }, class: "btn btn-secondary btn-sm btn-remove", title: t("app.cart.remove"), form: { data: { turbo_stream: true } } %>
             </td>
           </tr>
@@ -43,7 +43,7 @@
 
     <div class="card order-summary-footer">
       <p class="order-total"><strong><%= t("app.cart.total", amount: format_money(cart_total)) %></strong></p>
-      <div class="actions">
+      <div class="actions actions--stack-mobile">
         <%= button_to t("app.cart.place_order"), orders_path, method: :post, class: "btn btn-primary", data: { turbo_confirm: t("app.cart.confirm_order") } %>
         <%= button_to t("app.cart.clear"), clear_cart_path, method: :delete, class: "btn btn-secondary", data: { turbo_confirm: t("app.cart.confirm_clear") }, form: { data: { turbo_stream: true } } %>
       </div>

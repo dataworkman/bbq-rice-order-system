@@ -47,6 +47,7 @@ ko:
       users: 계정 관리
       account: 내 계정
       inventory: 재고 관리
+      menu: 메뉴
     locale:
       ko: 한국어
       en: English

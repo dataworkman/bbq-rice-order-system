@@ -12,22 +12,17 @@
   <body>
     <%= render "shared/locale_switcher" %>
 
-    <header class="navbar">
-      <div class="brand">
-        <%= render "shared/brand_logo", logo_path: admin_root_path %>
-      </div>
-      <nav>
-        <%= link_to t("app.nav.dashboard"), admin_root_path %>
-        <%= link_to t("app.nav.products"), admin_products_path %>
-        <%= link_to t("app.nav.inventory"), admin_inventory_path %>
-        <%= link_to t("app.nav.franchises"), admin_franchises_path %>
-        <%= link_to t("app.nav.orders"), admin_orders_path %>
-        <%= link_to t("app.nav.users"), admin_users_path %>
-        <%= link_to t("app.nav.account"), edit_account_path %>
-        <%= link_to t("app.nav.owner_view"), root_path %>
-        <%= button_to t("app.nav.logout"), logout_path, method: :delete, class: "btn btn-secondary", form: { style: "display:inline" } %>
-      </nav>
-    </header>
+    <%= render layout: "shared/navbar", locals: { logo_path: admin_root_path } do %>
+      <%= link_to t("app.nav.dashboard"), admin_root_path %>
+      <%= link_to t("app.nav.products"), admin_products_path %>
+      <%= link_to t("app.nav.inventory"), admin_inventory_path %>
+      <%= link_to t("app.nav.franchises"), admin_franchises_path %>
+      <%= link_to t("app.nav.orders"), admin_orders_path %>
+      <%= link_to t("app.nav.users"), admin_users_path %>
+      <%= link_to t("app.nav.account"), edit_account_path %>
+      <%= link_to t("app.nav.owner_view"), root_path %>
+      <%= button_to t("app.nav.logout"), logout_path, method: :delete, class: "btn btn-secondary", form: { style: "display:inline", data: { action: "click->nav#close" } } %>
+    <% end %>
 
     <main class="container">
       <% flash.each do |type, message| %>
