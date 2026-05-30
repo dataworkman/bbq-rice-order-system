@@ -3,7 +3,19 @@
 <div class="card">
   <p><strong><%= t("app.admin.franchises.address") %>:</strong> <%= @franchise.address %></p>
   <p><strong><%= t("app.admin.franchises.owner_email") %>:</strong> <%= @franchise.owner_email %></p>
-  <%= link_to t("app.admin.dashboard.edit"), edit_admin_franchise_path(@franchise), class: "btn btn-secondary" %>
+
+  <div class="actions">
+    <%= link_to t("app.admin.dashboard.edit"), edit_admin_franchise_path(@franchise), class: "btn btn-secondary" %>
+    <% if @franchise.owner %>
+      <%= button_to t("app.admin.franchises.reset_password"),
+                    reset_password_admin_franchise_path(@franchise),
+                    method: :post,
+                    class: "btn btn-secondary",
+                    form: { data: { turbo_confirm: t("app.admin.franchises.confirm_reset_password") } } %>
+    <% else %>
+      <p class="form-hint"><%= t("app.admin.franchises.no_owner_account") %></p>
+    <% end %>
+  </div>
 </div>
 
 <h2><%= t("app.admin.franchises.recent_orders") %></h2>

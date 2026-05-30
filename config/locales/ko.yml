@@ -44,6 +44,8 @@ ko:
       orders: 주문
       owner_view: 점주 화면
       logout: 로그아웃
+      users: 계정 관리
+      account: 내 계정
     locale:
       ko: 한국어
       en: English
@@ -68,6 +70,14 @@ ko:
       product_deleted: 품목이 삭제되었습니다
       product_delete_failed: 주문 이력이 있는 품목은 삭제할 수 없습니다
       franchise_updated: 가맹점 정보가 수정되었습니다
+      franchise_created: "가맹점이 등록되었습니다. 점주 초기 비밀번호: %{password} (안전한 곳에 보관 후 점주에게 전달하세요)"
+      owner_password_reset: "점주(%{email}) 비밀번호가 초기화되었습니다. 새 비밀번호: %{password}"
+      owner_account_missing: 점주 계정이 없습니다. 가맹점을 다시 등록하거나 관리자에게 문의하세요.
+      admin_created: "관리자 계정이 생성되었습니다. 이메일: %{email}, 초기 비밀번호: %{password}"
+      admin_password_reset: "관리자(%{email}) 비밀번호가 초기화되었습니다. 새 비밀번호: %{password}"
+      cannot_reset_own_password_here: 본인 비밀번호는 '내 계정'에서 변경하세요.
+      password_changed: 비밀번호가 변경되었습니다
+      current_password_invalid: 현재 비밀번호가 올바르지 않습니다
       invalid_status: 유효하지 않은 상태입니다
       cancelled_order_locked: 취소된 주문은 변경할 수 없습니다
       order_status_changed: "주문 상태가 %{status}(으)로 변경되었습니다"
@@ -120,6 +130,19 @@ ko:
       cancel: 주문 취소
       list: 주문 목록
       confirm_cancel: 주문을 취소하시겠습니까? 재고가 복구됩니다.
+    account:
+      title: 내 계정
+      email: 이메일
+      role: 역할
+      roles:
+        owner: 점주
+        admin: 본사 관리자
+      current_password: 현재 비밀번호
+      new_password: 새 비밀번호
+      password_confirmation: 새 비밀번호 확인
+      save: 비밀번호 변경
+      cancel: 취소
+      change_password: 비밀번호 변경
     admin:
       dashboard:
         title: 본사 대시보드
@@ -160,13 +183,31 @@ ko:
           active: 판매 여부
       franchises:
         title: 가맹점 관리
+        new: 새 가맹점 등록
+        new_title: 가맹점 등록
+        create: 등록
         name: 가맹점
         address: 주소
         owner_email: 점주 이메일
+        owner_email_hint: 이 이메일로 점주 로그인 계정이 자동 생성됩니다. 초기 비밀번호는 등록 후 화면에 표시됩니다.
+        reset_password: 비밀번호 초기화
+        confirm_reset_password: 점주 비밀번호를 초기화하시겠습니까? 새 비밀번호가 생성됩니다.
+        no_owner_account: 연결된 점주 계정이 없습니다.
         recent_orders: 최근 주문
         no_orders: 주문 내역이 없습니다.
         edit_title: 가맹점 수정
         save: 저장
+        cancel: 취소
+      users:
+        title: 관리자 계정
+        new: 관리자 추가
+        new_title: 관리자 계정 추가
+        create: 생성
+        email: 이메일
+        new_hint: 초기 비밀번호는 생성 후 화면에 한 번 표시됩니다.
+        reset_password: 비밀번호 초기화
+        confirm_reset_password: 이 관리자의 비밀번호를 초기화하시겠습니까?
+        you: 본인
         cancel: 취소
       orders:
         title: 주문 관리

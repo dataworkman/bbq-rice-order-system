@@ -1,0 +1,18 @@
+<h1><%= t("app.admin.users.new_title") %></h1>
+
+<div class="card">
+  <%= form_with model: [:admin, @admin], url: admin_users_path do |f| %>
+    <% if @admin.errors.any? %>
+      <div class="flash alert"><%= @admin.errors.full_messages.join(", ") %></div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :email, t("app.admin.users.email") %>
+      <%= f.email_field :email, required: true, autofocus: true %>
+      <p class="form-hint"><%= t("app.admin.users.new_hint") %></p>
+    </div>
+
+    <%= f.submit t("app.admin.users.create"), class: "btn btn-primary" %>
+    <%= link_to t("app.admin.users.cancel"), admin_users_path, class: "btn btn-secondary" %>
+  <% end %>
+</div>

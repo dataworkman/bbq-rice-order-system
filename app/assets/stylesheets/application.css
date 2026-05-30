@@ -143,6 +143,12 @@ th { background: #fff8e1; }
   border-color: var(--primary);
 }
 
+.form-hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
 .login-page {
   min-height: calc(100vh - 48px);
   display: flex;

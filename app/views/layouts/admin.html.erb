@@ -21,6 +21,8 @@
         <%= link_to t("app.nav.products"), admin_products_path %>
         <%= link_to t("app.nav.franchises"), admin_franchises_path %>
         <%= link_to t("app.nav.orders"), admin_orders_path %>
+        <%= link_to t("app.nav.users"), admin_users_path %>
+        <%= link_to t("app.nav.account"), edit_account_path %>
         <%= link_to t("app.nav.owner_view"), root_path %>
         <%= button_to t("app.nav.logout"), logout_path, method: :delete, class: "btn btn-secondary", form: { style: "display:inline" } %>
       </nav>

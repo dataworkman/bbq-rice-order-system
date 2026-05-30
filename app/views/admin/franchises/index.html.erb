@@ -1,5 +1,7 @@
 <h1><%= t("app.admin.franchises.title") %></h1>
 
+<p><%= link_to t("app.admin.franchises.new"), new_admin_franchise_path, class: "btn btn-primary" %></p>
+
 <table>
   <thead>
     <tr><th><%= t("app.admin.franchises.name") %></th><th><%= t("app.admin.franchises.address") %></th><th><%= t("app.admin.franchises.owner_email") %></th><th></th></tr>

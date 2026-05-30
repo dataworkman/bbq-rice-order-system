@@ -44,6 +44,8 @@ en:
       orders: Orders
       owner_view: Owner View
       logout: Logout
+      users: Accounts
+      account: My account
     locale:
       ko: 한국어
       en: English
@@ -68,6 +70,14 @@ en:
       product_deleted: Product deleted
       product_delete_failed: Cannot delete a product with order history
       franchise_updated: Franchisee updated
+      franchise_created: "Franchisee registered. Initial owner password: %{password} (save it and share securely with the franchisee)"
+      owner_password_reset: "Owner password reset for %{email}. New password: %{password}"
+      owner_account_missing: No owner account linked to this franchisee.
+      admin_created: "Admin account created. Email: %{email}, initial password: %{password}"
+      admin_password_reset: "Admin password reset for %{email}. New password: %{password}"
+      cannot_reset_own_password_here: Change your own password under My account.
+      password_changed: Password updated successfully
+      current_password_invalid: Current password is incorrect
       invalid_status: Invalid status
       cancelled_order_locked: Cancelled orders cannot be changed
       order_status_changed: "Order status changed to %{status}"
@@ -120,6 +130,19 @@ en:
       cancel: Cancel order
       list: Back to orders
       confirm_cancel: Cancel this order? Stock will be restored.
+    account:
+      title: My account
+      email: Email
+      role: Role
+      roles:
+        owner: Franchisee
+        admin: HQ admin
+      current_password: Current password
+      new_password: New password
+      password_confirmation: Confirm new password
+      save: Update password
+      cancel: Cancel
+      change_password: Change password
     admin:
       dashboard:
         title: HQ Dashboard
@@ -160,13 +183,31 @@ en:
           active: Availability
       franchises:
         title: Franchisee management
+        new: New franchisee
+        new_title: Register franchisee
+        create: Create
         name: Franchisee
         address: Address
         owner_email: Franchisee email
+        owner_email_hint: A login account is created with this email. The initial password is shown once after registration.
+        reset_password: Reset password
+        confirm_reset_password: Reset this franchisee's password? A new password will be generated.
+        no_owner_account: No owner account is linked.
         recent_orders: Recent orders
         no_orders: No orders yet.
         edit_title: Edit franchisee
         save: Save
+        cancel: Cancel
+      users:
+        title: Admin accounts
+        new: Add admin
+        new_title: New admin account
+        create: Create
+        email: Email
+        new_hint: The initial password is shown once after creation.
+        reset_password: Reset password
+        confirm_reset_password: Reset this admin's password?
+        you: You
         cancel: Cancel
       orders:
         title: Order management

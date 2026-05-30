@@ -1,6 +1,6 @@
 module Admin
   class FranchisesController < BaseController
-    before_action :set_franchise, only: %i[show edit update]
+    before_action :set_franchise, only: %i[show edit update reset_password]
 
     def index
       @franchises = Franchise.order(:name)
@@ -8,6 +8,22 @@ module Admin
 
     def show
       @orders = @franchise.orders.recent.limit(20)
+    end
+
+    def new
+      @franchise = Franchise.new
+    end
+
+    def create
+      result = FranchiseCreator.call(**franchise_params.to_h.symbolize_keys)
+
+      if result.success?
+        redirect_to admin_franchise_path(result.franchise),
+                    notice: t("app.flash.franchise_created", password: result.initial_password)
+      else
+        @franchise = result.franchise.is_a?(Franchise) ? result.franchise : Franchise.new(franchise_params)
+        render :new, status: :unprocessable_entity
+      end
     end
 
     def edit
@@ -19,6 +35,18 @@ module Admin
       else
         render :edit, status: :unprocessable_entity
       end
+    end
+
+    def reset_password
+      owner = @franchise.owner
+      if owner.nil?
+        redirect_to admin_franchise_path(@franchise), alert: t("app.flash.owner_account_missing")
+        return
+      end
+
+      password = PasswordResetter.reset!(owner)
+      redirect_to admin_franchise_path(@franchise),
+                  notice: t("app.flash.owner_password_reset", email: owner.email, password: password)
     end
 
     private

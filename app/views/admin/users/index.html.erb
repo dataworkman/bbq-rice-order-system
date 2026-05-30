@@ -1,0 +1,35 @@
+<h1><%= t("app.admin.users.title") %></h1>
+
+<p><%= link_to t("app.admin.users.new"), new_admin_user_path, class: "btn btn-primary" %></p>
+
+<table>
+  <thead>
+    <tr>
+      <th><%= t("app.admin.users.email") %></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @admins.each do |admin| %>
+      <tr>
+        <td>
+          <%= admin.email %>
+          <% if admin.id == current_user.id %>
+            <span class="badge"><%= t("app.admin.users.you") %></span>
+          <% end %>
+        </td>
+        <td class="actions">
+          <% unless admin.id == current_user.id %>
+            <%= button_to t("app.admin.users.reset_password"),
+                          reset_password_admin_user_path(admin),
+                          method: :post,
+                          class: "btn btn-secondary",
+                          form: { data: { turbo_confirm: t("app.admin.users.confirm_reset_password") } } %>
+          <% else %>
+            <%= link_to t("app.account.change_password"), edit_account_path, class: "btn btn-secondary" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

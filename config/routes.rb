@@ -9,9 +9,9 @@ Rails.application.routes.draw do
 
   root "products#index"
 
-  resources :products, only: [ :index ]
+  resources :products, only: [:index]
 
-  resource :cart, only: [ :show ] do
+  resource :cart, only: [:show] do
     post :add
     patch :update
     delete :clear
@@ -19,10 +19,21 @@ Rails.application.routes.draw do
 
   resources :orders, only: %i[index show create destroy]
 
+  resource :account, only: %i[edit update], controller: "account"
+
   namespace :admin do
     root "dashboard#index"
     resources :products
-    resources :franchises, only: %i[index show edit update]
+    resources :franchises, except: :destroy do
+      member do
+        post :reset_password
+      end
+    end
+    resources :users, only: %i[index new create] do
+      member do
+        post :reset_password
+      end
+    end
     resources :orders, only: %i[index show update]
   end
 
