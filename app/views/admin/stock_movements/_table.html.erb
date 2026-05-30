@@ -1,0 +1,28 @@
+<table>
+  <thead>
+    <tr>
+      <th><%= t("app.orders.datetime") %></th>
+      <th><%= t("app.admin.products.name") %></th>
+      <th><%= t("app.inventory.movement_type") %></th>
+      <th><%= t("app.inventory.quantity_change") %></th>
+      <th><%= t("app.inventory.balance_after") %></th>
+      <th><%= t("app.inventory.recorded_by") %></th>
+      <th><%= t("app.inventory.reference") %></th>
+      <th><%= t("app.inventory.note") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% movements.each do |movement| %>
+      <tr>
+        <td><%= l(movement.created_at, format: :short) %></td>
+        <td><%= movement.product.name %></td>
+        <td><%= movement.movement_type_label %></td>
+        <td><%= movement.signed_quantity_label %></td>
+        <td><%= movement.balance_after %><%= movement.product.unit %></td>
+        <td><%= movement.user.email %></td>
+        <td><%= render "admin/stock_movements/reference", movement: movement %></td>
+        <td><%= movement.note.presence || "—" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

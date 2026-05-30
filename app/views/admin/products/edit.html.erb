@@ -1,2 +1,8 @@
 <h1><%= t("app.admin.products.edit_title") %></h1>
 <div class="card"><%= render "form" %></div>
+
+<% if @recent_movements&.any? %>
+  <h2><%= t("app.inventory.recent_movements_for_product") %></h2>
+  <%= render "admin/stock_movements/table", movements: @recent_movements %>
+  <p><%= link_to t("app.inventory.view_all_movements"), admin_stock_movements_path(product_id: @product.id) %></p>
+<% end %>

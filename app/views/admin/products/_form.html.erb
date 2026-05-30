@@ -19,9 +19,24 @@
     <%= f.label :unit_price_dollars, t("app.admin.products.form.unit_price") %>
     <%= f.number_field :unit_price_dollars, min: 0.01, step: 0.01, required: true, value: @product.unit_price_dollars %>
   </div>
+
+  <% if @product.new_record? %>
+    <div class="form-group">
+      <%= label_tag "product[initial_stock]", t("app.inventory.initial_stock") %>
+      <%= number_field_tag "product[initial_stock]", 0, min: 0, step: 1 %>
+      <p class="form-hint"><%= t("app.inventory.initial_stock_hint") %></p>
+    </div>
+  <% else %>
+    <div class="form-group">
+      <label><%= t("app.admin.products.form.stock") %></label>
+      <p><strong><%= @product.stock %><%= @product.unit %></strong></p>
+      <p class="form-hint"><%= t("app.inventory.stock_readonly_hint") %></p>
+    </div>
+  <% end %>
+
   <div class="form-group">
-    <%= f.label :stock, t("app.admin.products.form.stock") %>
-    <%= f.number_field :stock, min: 0, required: true %>
+    <%= f.label :reorder_point, t("app.inventory.reorder_point") %>
+    <%= f.number_field :reorder_point, min: 0, required: true %>
   </div>
   <div class="form-group">
     <%= f.label :unit, t("app.admin.products.form.unit") %>
@@ -34,4 +49,8 @@
 
   <%= f.submit t("app.admin.products.save"), class: "btn btn-primary" %>
   <%= link_to t("app.admin.products.list"), admin_products_path, class: "btn btn-secondary" %>
+  <% unless @product.new_record? %>
+    <%= link_to t("app.inventory.new_receipt"), new_admin_stock_receipt_path, class: "btn btn-secondary" %>
+    <%= link_to t("app.inventory.new_adjustment"), new_admin_stock_adjustment_path, class: "btn btn-secondary" %>
+  <% end %>
 <% end %>

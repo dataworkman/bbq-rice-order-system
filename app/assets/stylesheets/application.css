@@ -143,11 +143,22 @@ th { background: #fff8e1; }
   border-color: var(--primary);
 }
 
+.filter-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.filter-row .form-group { margin-bottom: 0; }
+
 .form-hint {
   margin: 0.35rem 0 0;
   font-size: 0.875rem;
   color: var(--muted);
 }
+
+.muted-cell { color: var(--muted); }
 
 .login-page {
   min-height: calc(100vh - 48px);
@@ -170,6 +181,12 @@ th { background: #fff8e1; }
   font-size: 1.25rem;
   color: var(--brand-gray);
   text-align: center;
+}
+
+.login-links {
+  margin: 1rem 0 0;
+  text-align: center;
+  font-size: 0.9rem;
 }
 
 .product-card.out-of-stock {

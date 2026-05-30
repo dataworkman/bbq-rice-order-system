@@ -25,7 +25,13 @@ class OrdersController < ApplicationController
 
     ActiveRecord::Base.transaction do
       @order.order_items.each do |item|
-        item.product.increment!(:stock, item.quantity)
+        InventoryService.record!(
+          product: item.product,
+          quantity: item.quantity,
+          movement_type: :order_cancel,
+          user: current_user,
+          reference: @order
+        )
       end
       @order.update!(status: :cancelled)
     end

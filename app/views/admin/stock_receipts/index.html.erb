@@ -1,0 +1,34 @@
+<h1><%= t("app.inventory.receipts_title") %></h1>
+
+<p><%= link_to t("app.inventory.new_receipt"), new_admin_stock_receipt_path, class: "btn btn-primary" %></p>
+
+<% if @stock_receipts.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t("app.inventory.received_on") %></th>
+        <th><%= t("app.inventory.supplier") %></th>
+        <th><%= t("app.inventory.line_count") %></th>
+        <th><%= t("app.inventory.total_quantity") %></th>
+        <th><%= t("app.inventory.recorded_by") %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @stock_receipts.each do |receipt| %>
+        <tr>
+          <td><%= l(receipt.received_on, format: :long) %></td>
+          <td><%= receipt.supplier.presence || "—" %></td>
+          <td><%= receipt.stock_receipt_lines.size %></td>
+          <td><%= receipt.total_quantity %></td>
+          <td><%= receipt.user.email %></td>
+          <td><%= link_to t("app.orders.detail"), admin_stock_receipt_path(receipt), class: "btn btn-secondary" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="card"><p><%= t("app.inventory.no_receipts") %></p></div>
+<% end %>
+
+<p><%= link_to t("app.inventory.back_to_inventory"), admin_inventory_path %></p>

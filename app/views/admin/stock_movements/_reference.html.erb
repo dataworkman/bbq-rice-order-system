@@ -1,0 +1,7 @@
+<% if movement.reference.is_a?(Order) %>
+  <%= link_to "##{movement.reference.id}", admin_order_path(movement.reference) %>
+<% elsif movement.reference.is_a?(StockReceipt) %>
+  <%= link_to t("app.inventory.receipt_ref", id: movement.reference.id), admin_stock_receipt_path(movement.reference) %>
+<% else %>
+  —
+<% end %>

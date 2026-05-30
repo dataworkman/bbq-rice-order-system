@@ -48,11 +48,19 @@ class OrderCreator
           quantity: item[:quantity],
           unit_price: item[:unit_price]
         )
-        item[:product].decrement!(:stock, item[:quantity])
+        InventoryService.record!(
+          product: item[:product],
+          quantity: -item[:quantity],
+          movement_type: :order_out,
+          user: @user,
+          reference: order
+        )
       end
     end
 
     OrderMailer.with(locale: I18n.locale).order_confirmation(order).deliver_later
     order
+  rescue InventoryService::InsufficientStockError => e
+    raise InsufficientStockError, e.message
   end
 end

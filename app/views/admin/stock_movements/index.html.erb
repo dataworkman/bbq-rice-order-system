@@ -1,0 +1,32 @@
+<h1><%= t("app.inventory.movements_title") %></h1>
+
+<div class="card">
+  <%= form_with url: admin_stock_movements_path, method: :get, local: true do %>
+    <div class="filter-row">
+      <div class="form-group">
+        <%= label_tag :product_id, t("app.admin.products.name") %>
+        <%= select_tag :product_id,
+                       options_from_collection_for_select(@products, :id, :name, params[:product_id]),
+                       include_blank: t("app.inventory.all_products") %>
+      </div>
+      <div class="form-group">
+        <%= label_tag :movement_type, t("app.inventory.movement_type") %>
+        <%= select_tag :movement_type,
+                       options_for_select(
+                         StockMovement.movement_types.keys.map { |type| [t("app.inventory.movement_types.#{type}"), type] },
+                         params[:movement_type]
+                       ),
+                       include_blank: t("app.inventory.all_types") %>
+      </div>
+      <%= submit_tag t("app.inventory.filter"), class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>
+
+<% if @movements.any? %>
+  <%= render "admin/stock_movements/table", movements: @movements %>
+<% else %>
+  <div class="card"><p><%= t("app.inventory.no_movements") %></p></div>
+<% end %>
+
+<p><%= link_to t("app.inventory.back_to_inventory"), admin_inventory_path %></p>

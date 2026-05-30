@@ -1,0 +1,49 @@
+<h1><%= t("app.inventory.new_receipt_title") %></h1>
+
+<div class="card">
+  <%= form_with url: admin_stock_receipts_path, method: :post do %>
+    <div class="form-group">
+      <%= label_tag "stock_receipt[received_on]", t("app.inventory.received_on") %>
+      <%= date_field_tag "stock_receipt[received_on]", Date.current, required: true %>
+    </div>
+    <div class="form-group">
+      <%= label_tag "stock_receipt[supplier]", t("app.inventory.supplier") %>
+      <%= text_field_tag "stock_receipt[supplier]", nil, placeholder: t("app.inventory.supplier_placeholder") %>
+    </div>
+    <div class="form-group">
+      <%= label_tag "stock_receipt[note]", t("app.inventory.note") %>
+      <%= text_area_tag "stock_receipt[note]", nil, rows: 2 %>
+    </div>
+
+    <h2><%= t("app.inventory.receipt_lines") %></h2>
+    <p class="form-hint"><%= t("app.inventory.receipt_lines_hint") %></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th><%= t("app.admin.products.name") %></th>
+          <th><%= t("app.admin.products.stock") %></th>
+          <th><%= t("app.inventory.inbound_quantity") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @line_count.times do |index| %>
+          <tr>
+            <td>
+              <%= select_tag "lines[][product_id]",
+                             options_from_collection_for_select(@products, :id, :name),
+                             include_blank: t("app.inventory.select_product") %>
+            </td>
+            <td class="muted-cell">—</td>
+            <td>
+              <%= number_field_tag "lines[][quantity]", nil, min: 1, step: 1, placeholder: "0" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <%= submit_tag t("app.inventory.save_receipt"), class: "btn btn-primary" %>
+    <%= link_to t("app.admin.franchises.cancel"), admin_inventory_path, class: "btn btn-secondary" %>
+  <% end %>
+</div>

@@ -1,0 +1,41 @@
+<h1><%= t("app.inventory.adjustment_title") %></h1>
+
+<div class="card">
+  <%= form_with url: admin_stock_adjustments_path, method: :post, scope: :stock_adjustment do |f| %>
+    <div class="form-group">
+      <%= f.label :product_id, t("app.admin.products.name") %>
+      <%= f.collection_select :product_id, @products, :id, :name,
+                              { selected: @adjustment[:product_id], include_blank: t("app.inventory.select_product") },
+                              required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :direction, t("app.inventory.adjustment_direction") %>
+      <%= f.select :direction,
+                   [[t("app.inventory.direction_in"), "in"], [t("app.inventory.direction_out"), "out"]],
+                   { selected: @adjustment[:direction] },
+                   required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :quantity, t("app.inventory.adjustment_quantity") %>
+      <%= f.number_field :quantity, min: 1, required: true, value: @adjustment[:quantity] %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :reason, t("app.inventory.adjustment_reason") %>
+      <%= f.select :reason,
+                   StockAdjustmentCreator::ADJUSTMENT_REASONS.map { |reason| [t("app.inventory.adjustment_reasons.#{reason}"), reason] },
+                   { selected: @adjustment[:reason] },
+                   required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :note, t("app.inventory.note") %>
+      <%= f.text_area :note, rows: 2, value: @adjustment[:note] %>
+    </div>
+
+    <%= f.submit t("app.inventory.save_adjustment"), class: "btn btn-primary" %>
+    <%= link_to t("app.admin.franchises.cancel"), admin_inventory_path, class: "btn btn-secondary" %>
+  <% end %>
+</div>

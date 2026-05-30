@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_30_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_30_140000) do
   create_table "franchises", force: :cascade do |t|
     t.string "address", null: false
     t.datetime "created_at", null: false
@@ -48,11 +48,49 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_30_120000) do
     t.datetime "created_at", null: false
     t.string "item_number", null: false
     t.string "name", null: false
+    t.integer "reorder_point", default: 10, null: false
     t.integer "stock", default: 0, null: false
     t.string "unit", default: "개", null: false
     t.integer "unit_price", null: false
     t.datetime "updated_at", null: false
     t.index ["item_number"], name: "index_products_on_item_number", unique: true
+  end
+
+  create_table "stock_movements", force: :cascade do |t|
+    t.integer "balance_after", null: false
+    t.datetime "created_at", null: false
+    t.integer "movement_type", null: false
+    t.text "note"
+    t.integer "product_id", null: false
+    t.integer "quantity", null: false
+    t.bigint "reference_id"
+    t.string "reference_type"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["product_id", "created_at"], name: "index_stock_movements_on_product_id_and_created_at"
+    t.index ["product_id"], name: "index_stock_movements_on_product_id"
+    t.index ["reference_type", "reference_id"], name: "index_stock_movements_on_reference_type_and_reference_id"
+    t.index ["user_id"], name: "index_stock_movements_on_user_id"
+  end
+
+  create_table "stock_receipt_lines", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "product_id", null: false
+    t.integer "quantity", null: false
+    t.integer "stock_receipt_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_stock_receipt_lines_on_product_id"
+    t.index ["stock_receipt_id"], name: "index_stock_receipt_lines_on_stock_receipt_id"
+  end
+
+  create_table "stock_receipts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "note"
+    t.date "received_on", null: false
+    t.string "supplier"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_stock_receipts_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -70,5 +108,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_30_120000) do
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "franchises"
   add_foreign_key "orders", "users"
+  add_foreign_key "stock_movements", "products"
+  add_foreign_key "stock_movements", "users"
+  add_foreign_key "stock_receipt_lines", "products"
+  add_foreign_key "stock_receipt_lines", "stock_receipts"
+  add_foreign_key "stock_receipts", "users"
   add_foreign_key "users", "franchises"
 end

@@ -1,0 +1,22 @@
+<div class="login-page">
+  <div class="login-logo">
+    <%= image_tag "logo.png", alt: "BBQ + RICE", class: "login-logo__img" %>
+  </div>
+
+  <div class="card login-card">
+    <h1><%= t("app.password_reset.title") %></h1>
+    <p><%= t("app.password_reset.subtitle") %></p>
+
+    <%= form_with url: password_reset_path, method: :post do |f| %>
+      <div class="form-group">
+        <%= label_tag :email, t("app.sessions.email") %>
+        <%= email_field_tag :email, params[:email], required: true, autofocus: true, placeholder: "owner1@example.com" %>
+      </div>
+      <%= submit_tag t("app.password_reset.send_link"), class: "btn btn-primary" %>
+    <% end %>
+
+    <p class="login-links">
+      <%= link_to t("app.password_reset.back_to_login"), login_path %>
+    </p>
+  </div>
+</div>

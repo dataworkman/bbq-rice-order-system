@@ -7,12 +7,15 @@ module Admin
     end
 
     def new
-      @product = Product.new
+      @product = Product.new(stock: 0)
     end
 
     def create
-      @product = Product.new(product_params)
+      @product = Product.new(product_params.merge(stock: 0))
+      initial_stock = initial_stock_param
+
       if @product.save
+        record_initial_stock(@product, initial_stock)
         redirect_to admin_products_path, notice: t("app.flash.product_created")
       else
         render :new, status: :unprocessable_entity
@@ -20,12 +23,14 @@ module Admin
     end
 
     def edit
+      @recent_movements = @product.stock_movements.recent.limit(5)
     end
 
     def update
       if @product.update(product_params)
         redirect_to admin_products_path, notice: t("app.flash.product_updated")
       else
+        @recent_movements = @product.stock_movements.recent.limit(5)
         render :edit, status: :unprocessable_entity
       end
     end
@@ -46,7 +51,23 @@ module Admin
     end
 
     def product_params
-      params.require(:product).permit(:item_number, :name, :category, :unit_price_dollars, :stock, :unit, :active)
+      params.require(:product).permit(:item_number, :name, :category, :unit_price_dollars, :unit, :active, :reorder_point)
+    end
+
+    def initial_stock_param
+      params.dig(:product, :initial_stock).to_i
+    end
+
+    def record_initial_stock(product, quantity)
+      return unless quantity.positive?
+
+      InventoryService.record!(
+        product: product,
+        quantity: quantity,
+        movement_type: :adjustment_in,
+        user: current_user,
+        note: I18n.t("app.inventory.initial_stock_note")
+      )
     end
   end
 end

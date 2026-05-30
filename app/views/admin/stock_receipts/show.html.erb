@@ -1,0 +1,30 @@
+<h1><%= t("app.inventory.receipt_detail_title", id: @stock_receipt.id) %></h1>
+
+<div class="card">
+  <p><strong><%= t("app.inventory.received_on") %>:</strong> <%= l(@stock_receipt.received_on, format: :long) %></p>
+  <p><strong><%= t("app.inventory.supplier") %>:</strong> <%= @stock_receipt.supplier.presence || "—" %></p>
+  <p><strong><%= t("app.inventory.note") %>:</strong> <%= @stock_receipt.note.presence || "—" %></p>
+  <p><strong><%= t("app.inventory.recorded_by") %>:</strong> <%= @stock_receipt.user.email %></p>
+</div>
+
+<h2><%= t("app.inventory.receipt_lines") %></h2>
+<table>
+  <thead>
+    <tr>
+      <th><%= t("app.products.item_number") %></th>
+      <th><%= t("app.admin.products.name") %></th>
+      <th><%= t("app.inventory.inbound_quantity") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @stock_receipt.stock_receipt_lines.each do |line| %>
+      <tr>
+        <td><code><%= line.product.item_number %></code></td>
+        <td><%= line.product.name %></td>
+        <td><%= line.quantity %><%= line.product.unit %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p><%= link_to t("app.inventory.back_to_receipts"), admin_stock_receipts_path %></p>

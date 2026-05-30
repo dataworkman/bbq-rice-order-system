@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   post "login", to: "sessions#create"
   delete "logout", to: "sessions#destroy"
 
+  resource :password_reset, only: %i[new create edit update]
+
   root "products#index"
 
   resources :products, only: [ :index ]
@@ -35,6 +37,10 @@ Rails.application.routes.draw do
       end
     end
     resources :orders, only: %i[index show update]
+    get "inventory", to: "inventory#show", as: :inventory
+    resources :stock_receipts, only: %i[index new create show]
+    resources :stock_movements, only: [ :index ]
+    resources :stock_adjustments, only: %i[new create]
   end
 
   match "/404", to: "errors#not_found", via: :all

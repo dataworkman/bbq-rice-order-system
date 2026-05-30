@@ -1,0 +1,80 @@
+<h1><%= t("app.inventory.title") %></h1>
+
+<div class="stats">
+  <div class="stat-card">
+    <div class="number"><%= @low_stock_products.size %></div>
+    <div><%= t("app.inventory.low_stock_count") %></div>
+  </div>
+  <div class="stat-card">
+    <div class="number"><%= @out_of_stock_count %></div>
+    <div><%= t("app.inventory.out_of_stock_count") %></div>
+  </div>
+</div>
+
+<div class="actions" style="margin-bottom: 1.5rem;">
+  <%= link_to t("app.inventory.new_receipt"), new_admin_stock_receipt_path, class: "btn btn-primary" %>
+  <%= link_to t("app.inventory.new_adjustment"), new_admin_stock_adjustment_path, class: "btn btn-secondary" %>
+  <%= link_to t("app.inventory.view_movements"), admin_stock_movements_path, class: "btn btn-secondary" %>
+</div>
+
+<h2><%= t("app.inventory.low_stock_section") %></h2>
+<% if @low_stock_products.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t("app.admin.products.name") %></th>
+        <th><%= t("app.admin.products.stock") %></th>
+        <th><%= t("app.inventory.reorder_point") %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @low_stock_products.each do |product| %>
+        <tr>
+          <td><%= product.name %></td>
+          <td><%= product.stock %><%= product.unit %></td>
+          <td><%= product.reorder_point %><%= product.unit %></td>
+          <td><%= link_to t("app.inventory.new_receipt"), new_admin_stock_receipt_path, class: "btn btn-secondary" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="card"><p><%= t("app.admin.dashboard.no_low_stock") %></p></div>
+<% end %>
+
+<h2><%= t("app.inventory.recent_movements") %></h2>
+<% if @recent_movements.any? %>
+  <%= render "admin/stock_movements/table", movements: @recent_movements %>
+  <p><%= link_to t("app.inventory.view_all_movements"), admin_stock_movements_path %></p>
+<% else %>
+  <div class="card"><p><%= t("app.inventory.no_movements") %></p></div>
+<% end %>
+
+<h2><%= t("app.inventory.recent_receipts") %></h2>
+<% if @recent_receipts.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t("app.inventory.received_on") %></th>
+        <th><%= t("app.inventory.supplier") %></th>
+        <th><%= t("app.inventory.total_quantity") %></th>
+        <th><%= t("app.inventory.recorded_by") %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @recent_receipts.each do |receipt| %>
+        <tr>
+          <td><%= l(receipt.received_on, format: :long) %></td>
+          <td><%= receipt.supplier.presence || "—" %></td>
+          <td><%= receipt.total_quantity %></td>
+          <td><%= receipt.user.email %></td>
+          <td><%= link_to t("app.orders.detail"), admin_stock_receipt_path(receipt) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="card"><p><%= t("app.inventory.no_receipts") %></p></div>
+<% end %>
