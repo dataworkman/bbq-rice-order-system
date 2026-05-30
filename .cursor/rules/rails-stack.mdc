@@ -1,0 +1,14 @@
+---
+description: Rails + SQLite 기술 스택 규칙
+globs: **/*.{rb,erb,yml}
+alwaysApply: false
+---
+
+# Rails + SQLite
+
+- Ruby on Rails 8, SQLite3, Hotwire(Turbo/Stimulus), Propshaft
+- 인증: `has_secure_password` + 세션
+- 비동기 메일: `deliver_later` (Active Job)
+- 개발 메일: letter_opener
+- 서비스 객체로 복잡한 비즈니스 로직 분리 (`app/services/`)
+- 재고 변경은 트랜잭션 + `Product.lock` 사용

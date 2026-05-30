@@ -1,0 +1,50 @@
+<% content_for :title, t("app.cart.title") %>
+
+<h1><%= t("app.cart.title") %></h1>
+
+<% if cart_items.blank? %>
+  <div class="card">
+    <p><%= t("app.cart.empty") %></p>
+    <%= link_to t("app.cart.shop"), products_path, class: "btn btn-primary" %>
+  </div>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t("app.cart.item") %></th>
+        <th><%= t("app.cart.unit_price") %></th>
+        <th><%= t("app.cart.quantity") %></th>
+        <th><%= t("app.cart.subtotal") %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% cart_items.each do |product_id, quantity| %>
+        <% product = @cart_products[product_id] %>
+        <% next unless product %>
+        <tr>
+          <td><%= product.name %></td>
+          <td><%= format_money(product.unit_price) %></td>
+          <td>
+            <%= form_with url: cart_path, method: :patch, class: "inline-form" do %>
+              <%= hidden_field_tag :product_id, product.id %>
+              <%= number_field_tag :quantity, quantity, min: 0, max: product.stock %>
+              <%= submit_tag t("app.cart.update"), class: "btn btn-secondary" %>
+            <% end %>
+          </td>
+          <td><%= format_money(product.unit_price * quantity.to_i) %></td>
+          <td><%= t("app.cart.stock_left", count: product.stock, unit: product.unit) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="card" style="margin-top:1rem">
+    <p><strong><%= t("app.cart.total", amount: format_money(cart_total)) %></strong></p>
+    <div class="actions">
+      <%= button_to t("app.cart.place_order"), orders_path, method: :post, class: "btn btn-primary", data: { turbo_confirm: t("app.cart.confirm_order") } %>
+      <%= button_to t("app.cart.clear"), clear_cart_path, method: :delete, class: "btn btn-secondary" %>
+      <%= link_to t("app.cart.continue"), products_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+<% end %>

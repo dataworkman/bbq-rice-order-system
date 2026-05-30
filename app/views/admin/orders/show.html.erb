@@ -1,0 +1,39 @@
+<h1><%= t("app.admin.orders.show_title", id: @order.id) %></h1>
+
+<div class="card">
+  <p><strong><%= t("app.admin.orders.franchise") %>:</strong> <%= @order.franchise.name %></p>
+  <p><strong><%= t("app.orders.address") %>:</strong> <%= @order.franchise.address %></p>
+  <p><strong><%= t("app.admin.orders.orderer") %>:</strong> <%= @order.user.email %></p>
+  <p><strong><%= t("app.orders.status") %>:</strong> <span class="badge badge-<%= @order.status %>"><%= @order.status_label %></span></p>
+  <p><strong><%= t("app.orders.ordered_at") %>:</strong> <%= l(@order.created_at, format: :long) %></p>
+</div>
+
+<table>
+  <thead>
+    <tr><th><%= t("app.mailer.item") %></th><th><%= t("app.mailer.unit_price") %></th><th><%= t("app.mailer.quantity") %></th><th><%= t("app.mailer.subtotal") %></th></tr>
+  </thead>
+  <tbody>
+    <% @order.order_items.includes(:product).each do |item| %>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td><%= format_money(item.unit_price) %></td>
+        <td><%= item.quantity %><%= item.product.unit %></td>
+        <td><%= format_money(item.subtotal) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="card">
+  <p><strong><%= t("app.cart.total", amount: format_money(@order.total_amount)) %></strong></p>
+
+  <% unless @order.cancelled? %>
+    <h3><%= t("app.admin.orders.change_status") %></h3>
+    <div class="actions">
+      <% (Order.statuses.keys - ["cancelled"]).each do |status| %>
+        <% next if @order.status == status %>
+        <%= button_to Order.new(status: status).status_label, admin_order_path(@order), method: :patch, params: { status: status }, class: "btn btn-secondary" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

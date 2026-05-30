@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <title><%= content_for(:title) || t("app.admin_title") %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <%= render "shared/locale_switcher" %>
+
+    <header class="navbar">
+      <div class="brand">
+        <%= render "shared/brand_logo", logo_path: admin_root_path %>
+      </div>
+      <nav>
+        <%= link_to t("app.nav.dashboard"), admin_root_path %>
+        <%= link_to t("app.nav.products"), admin_products_path %>
+        <%= link_to t("app.nav.franchises"), admin_franchises_path %>
+        <%= link_to t("app.nav.orders"), admin_orders_path %>
+        <%= link_to t("app.nav.owner_view"), root_path %>
+        <%= button_to t("app.nav.logout"), logout_path, method: :delete, class: "btn btn-secondary", form: { style: "display:inline" } %>
+      </nav>
+    </header>
+
+    <main class="container">
+      <% flash.each do |type, message| %>
+        <div class="flash <%= type %>"><%= message %></div>
+      <% end %>
+      <%= yield %>
+    </main>
+  </body>
+</html>

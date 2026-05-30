@@ -1,0 +1,50 @@
+<section id="order-summary" class="order-summary">
+  <h2><%= t("app.cart.summary_title") %> <span class="order-count">(<%= cart_count %>)</span></h2>
+
+  <% if cart_items.blank? %>
+    <div class="card order-summary-empty">
+      <p><%= t("app.cart.empty_summary") %></p>
+    </div>
+  <% else %>
+    <table class="order-summary-table">
+      <thead>
+        <tr>
+          <th><%= t("app.cart.item") %></th>
+          <th><%= t("app.cart.unit_price") %></th>
+          <th><%= t("app.cart.quantity") %></th>
+          <th><%= t("app.cart.subtotal") %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% cart_items.each do |product_id, quantity| %>
+          <% product = @cart_products[product_id] %>
+          <% next unless product %>
+          <tr>
+            <td><%= product.name %></td>
+            <td><%= format_money(product.unit_price) %></td>
+            <td>
+              <%= form_with url: cart_path, method: :patch, class: "inline-form", data: { turbo_stream: true } do %>
+                <%= hidden_field_tag :product_id, product.id %>
+                <%= number_field_tag :quantity, quantity, min: 0, max: product.stock %>
+                <%= submit_tag t("app.cart.update"), class: "btn btn-secondary btn-sm" %>
+              <% end %>
+            </td>
+            <td><%= format_money(product.unit_price * quantity.to_i) %></td>
+            <td>
+              <%= button_to "×", cart_path, method: :patch, params: { product_id: product.id, quantity: 0 }, class: "btn btn-secondary btn-sm btn-remove", title: t("app.cart.remove"), form: { data: { turbo_stream: true } } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="card order-summary-footer">
+      <p class="order-total"><strong><%= t("app.cart.total", amount: format_money(cart_total)) %></strong></p>
+      <div class="actions">
+        <%= button_to t("app.cart.place_order"), orders_path, method: :post, class: "btn btn-primary", data: { turbo_confirm: t("app.cart.confirm_order") } %>
+        <%= button_to t("app.cart.clear"), clear_cart_path, method: :delete, class: "btn btn-secondary", data: { turbo_confirm: t("app.cart.confirm_clear") }, form: { data: { turbo_stream: true } } %>
+      </div>
+    </div>
+  <% end %>
+</section>

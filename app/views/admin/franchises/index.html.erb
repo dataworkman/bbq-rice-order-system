@@ -1,0 +1,20 @@
+<h1><%= t("app.admin.franchises.title") %></h1>
+
+<table>
+  <thead>
+    <tr><th><%= t("app.admin.franchises.name") %></th><th><%= t("app.admin.franchises.address") %></th><th><%= t("app.admin.franchises.owner_email") %></th><th></th></tr>
+  </thead>
+  <tbody>
+    <% @franchises.each do |franchise| %>
+      <tr>
+        <td><%= franchise.name %></td>
+        <td><%= franchise.address %></td>
+        <td><%= franchise.owner_email %></td>
+        <td class="actions">
+          <%= link_to t("app.orders.detail"), admin_franchise_path(franchise), class: "btn btn-secondary" %>
+          <%= link_to t("app.admin.dashboard.edit"), edit_admin_franchise_path(franchise), class: "btn btn-secondary" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,29 @@
+<% in_cart = cart_quantity_for(product) %>
+<% qty_value = local_assigns.fetch(:quantity_input, 1) %>
+<tr id="<%= dom_id(product, :row) %>" class="product-row <%= 'out-of-stock' unless product.orderable? %> <%= 'in-cart' if in_cart.positive? %>">
+  <td class="product-name">
+    <%= product.name %>
+    <% if in_cart.positive? %>
+      <span class="badge badge-in-cart" id="<%= dom_id(product, :cart_badge) %>"><%= t("app.products.in_cart", count: in_cart, unit: product.unit) %></span>
+    <% end %>
+  </td>
+  <td><%= format_money(product.unit_price) %> / <%= product.unit %></td>
+  <td>
+    <% if product.orderable? %>
+      <%= product.stock %><%= product.unit %>
+    <% else %>
+      <span class="badge badge-out-of-stock"><%= t("app.products.out_of_stock") %></span>
+    <% end %>
+  </td>
+  <td>
+    <% if product.orderable? %>
+      <%= form_with url: add_cart_path, method: :post, class: "inline-form product-add-form" do %>
+        <%= hidden_field_tag :product_id, product.id %>
+        <%= number_field_tag :quantity, qty_value, min: 1, max: product.stock %>
+        <%= submit_tag t("app.products.add"), class: "btn btn-primary btn-sm" %>
+      <% end %>
+    <% else %>
+      <%= button_tag t("app.products.out_of_stock"), class: "btn btn-primary btn-sm", disabled: true %>
+    <% end %>
+  </td>
+</tr>

@@ -1,0 +1,25 @@
+<h1><%= t("app.admin.franchises.edit_title") %></h1>
+
+<div class="card">
+  <%= form_with model: [:admin, @franchise] do |f| %>
+    <% if @franchise.errors.any? %>
+      <div class="flash alert"><%= @franchise.errors.full_messages.join(", ") %></div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :name, t("app.admin.franchises.name") %>
+      <%= f.text_field :name, required: true %>
+    </div>
+    <div class="form-group">
+      <%= f.label :address, t("app.admin.franchises.address") %>
+      <%= f.text_field :address, required: true %>
+    </div>
+    <div class="form-group">
+      <%= f.label :owner_email, t("app.admin.franchises.owner_email") %>
+      <%= f.email_field :owner_email, required: true %>
+    </div>
+
+    <%= f.submit t("app.admin.franchises.save"), class: "btn btn-primary" %>
+    <%= link_to t("app.admin.franchises.cancel"), admin_franchise_path(@franchise), class: "btn btn-secondary" %>
+  <% end %>
+</div>

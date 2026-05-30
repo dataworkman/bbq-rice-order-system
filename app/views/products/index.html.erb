@@ -1,0 +1,25 @@
+<% content_for :title, t("app.products.title") %>
+
+<h1><%= t("app.products.title") %></h1>
+<p><%= current_user.franchise.name %> · <%= current_user.franchise.address %></p>
+
+<% @products.each do |category, products| %>
+  <h2><%= category %></h2>
+  <table class="product-list">
+    <thead>
+      <tr>
+        <th><%= t("app.cart.item") %></th>
+        <th><%= t("app.cart.unit_price") %></th>
+        <th><%= t("app.admin.dashboard.stock") %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% products.each do |product| %>
+        <%= render "product_row", product: product %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<%= render "order_summary" %>

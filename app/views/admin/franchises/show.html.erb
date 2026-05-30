@@ -1,0 +1,29 @@
+<h1><%= @franchise.name %></h1>
+
+<div class="card">
+  <p><strong><%= t("app.admin.franchises.address") %>:</strong> <%= @franchise.address %></p>
+  <p><strong><%= t("app.admin.franchises.owner_email") %>:</strong> <%= @franchise.owner_email %></p>
+  <%= link_to t("app.admin.dashboard.edit"), edit_admin_franchise_path(@franchise), class: "btn btn-secondary" %>
+</div>
+
+<h2><%= t("app.admin.franchises.recent_orders") %></h2>
+<% if @orders.any? %>
+  <table>
+    <thead>
+      <tr><th>#</th><th><%= t("app.orders.status") %></th><th><%= t("app.orders.total") %></th><th><%= t("app.orders.datetime") %></th><th></th></tr>
+    </thead>
+    <tbody>
+      <% @orders.each do |order| %>
+        <tr>
+          <td>#<%= order.id %></td>
+          <td><span class="badge badge-<%= order.status %>"><%= order.status_label %></span></td>
+          <td><%= format_money(order.total_amount) %></td>
+          <td><%= l(order.created_at, format: :short) %></td>
+          <td><%= link_to t("app.orders.detail"), admin_order_path(order) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="card"><p><%= t("app.admin.franchises.no_orders") %></p></div>
+<% end %>

@@ -1,0 +1,38 @@
+<h1><%= t("app.mailer.title") %></h1>
+
+<p><%= t("app.mailer.greeting", name: @franchise.name) %></p>
+
+<table>
+  <tr><th><%= t("app.mailer.order_no") %></th><td>#<%= @order.id %></td></tr>
+  <tr><th><%= t("app.mailer.ordered_at") %></th><td><%= l(@order.created_at, format: :long) %></td></tr>
+  <tr><th><%= t("app.mailer.address") %></th><td><%= @franchise.address %></td></tr>
+  <tr><th><%= t("app.mailer.status") %></th><td><%= @order.status_label %></td></tr>
+</table>
+
+<h2><%= t("app.mailer.items") %></h2>
+<table>
+  <thead>
+    <tr><th><%= t("app.mailer.item") %></th><th><%= t("app.mailer.unit_price") %></th><th><%= t("app.mailer.quantity") %></th><th><%= t("app.mailer.subtotal") %></th></tr>
+  </thead>
+  <tbody>
+    <% @items.each do |item| %>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td><%= format_money(item.unit_price) %></td>
+        <td><%= item.quantity %><%= item.product.unit %></td>
+        <td><%= format_money(item.subtotal) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<hr>
+<h2><%= t("app.mailer.invoice") %></h2>
+<p><%= t("app.mailer.issued_at", date: l(Date.current, format: :long)) %></p>
+<table>
+  <tr><td><%= t("app.mailer.supply_amount") %></td><td align="right"><%= format_money(@order.total_amount) %></td></tr>
+  <tr><td><%= t("app.mailer.tax") %></td><td align="right"><%= format_money(@tax) %></td></tr>
+  <tr><td><strong><%= t("app.mailer.grand_total") %></strong></td><td align="right"><strong><%= format_money(@grand_total) %></strong></td></tr>
+</table>
+
+<p><%= t("app.mailer.delivery_note") %></p>

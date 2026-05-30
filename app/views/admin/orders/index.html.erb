@@ -1,0 +1,27 @@
+<h1><%= t("app.admin.orders.title") %></h1>
+
+<div class="actions" style="margin-bottom:1rem">
+  <%= link_to t("app.admin.orders.all"), admin_orders_path, class: "btn btn-secondary" %>
+  <% Order.statuses.keys.each do |status| %>
+    <%= link_to Order.new(status: status).status_label, admin_orders_path(status: status), class: "btn btn-secondary" %>
+  <% end %>
+</div>
+
+<table>
+  <thead>
+    <tr><th><%= t("app.admin.orders.order_no") %></th><th><%= t("app.admin.orders.franchise") %></th><th><%= t("app.admin.orders.orderer") %></th><th><%= t("app.orders.status") %></th><th><%= t("app.orders.total") %></th><th><%= t("app.orders.datetime") %></th><th></th></tr>
+  </thead>
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td>#<%= order.id %></td>
+        <td><%= order.franchise.name %></td>
+        <td><%= order.user.email %></td>
+        <td><span class="badge badge-<%= order.status %>"><%= order.status_label %></span></td>
+        <td><%= format_money(order.total_amount) %></td>
+        <td><%= l(order.created_at, format: :short) %></td>
+        <td><%= link_to t("app.orders.detail"), admin_order_path(order) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

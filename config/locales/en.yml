@@ -1,0 +1,203 @@
+en:
+  number:
+    currency:
+      format:
+        unit: "$"
+        precision: 2
+        delimiter: ","
+        separator: "."
+        format: "%u%n"
+  activerecord:
+    errors:
+      messages:
+        record_invalid: "Validation failed: %{errors}"
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M"
+      short: "%m/%d %H:%M"
+      long: "%B %d, %Y %H:%M"
+  date:
+    formats:
+      long: "%B %d, %Y"
+  order:
+    status:
+      pending: Pending
+      confirmed: Confirmed
+      shipped: Shipped
+      delivered: Delivered
+      cancelled: Cancelled
+  app:
+    site_title: BBQ + RICE Ordering
+    admin_title: HQ Admin
+    currency: USD
+    nav:
+      hq_admin: HQ Admin
+      ordering: Ordering
+      order_products: Order Products
+      my_order: "My order (%{count})"
+      order_history: Order History
+      dashboard: Dashboard
+      product_mgmt: Products
+      franchises: Franchisees
+      order_mgmt: Orders
+      products: Products
+      orders: Orders
+      owner_view: Owner View
+      logout: Logout
+    locale:
+      ko: 한국어
+      en: English
+    flash:
+      login_required: Please sign in
+      owner_only: This page is for franchisees only
+      admin_required: Admin access required
+      logged_in: Signed in successfully
+      logged_out: Signed out successfully
+      invalid_credentials: Invalid email or password
+      cart_updated: Cart updated
+      cart_item_removed: "Removed %{name} from order"
+      cart_cleared: Order cleared
+      cart_added: "Added %{quantity}%{unit} of %{name} to order"
+      out_of_stock: "%{name} is out of stock and cannot be ordered"
+      exceeds_stock: "Cannot exceed stock for %{name} (%{stock}%{unit} available)"
+      order_placed: Order placed. A confirmation email will be sent.
+      order_not_cancellable: This order cannot be cancelled
+      order_cancelled: "Order #%{id} has been cancelled"
+      product_created: Product created
+      product_updated: Product updated
+      product_deleted: Product deleted
+      product_delete_failed: Cannot delete a product with order history
+      franchise_updated: Franchisee updated
+      invalid_status: Invalid status
+      cancelled_order_locked: Cancelled orders cannot be changed
+      order_status_changed: "Order status changed to %{status}"
+    sessions:
+      title: BBQ + RICE Ordering
+      subtitle: Sign in as a franchisee or HQ admin.
+      email: Email
+      password: Password
+      login: Sign in
+      test_accounts: "Test accounts: owner %{owner} / admin %{admin}"
+      test_password: "Password: %{password}"
+    products:
+      title: Order Products
+      add: Add
+      out_of_stock: Out of stock
+      no_stock: No stock — ordering disabled
+      stock: "Stock: %{count}%{unit}"
+      in_cart: "In order: %{count}%{unit}"
+    cart:
+      title: Cart
+      summary_title: Order summary
+      empty_summary: No items added yet. Add products above.
+      shop: Browse products
+      item: Item
+      unit_price: Unit price
+      quantity: Qty
+      subtotal: Subtotal
+      total: "Total: %{amount}"
+      place_order: Place order
+      clear: Clear cart
+      continue: Continue shopping
+      update: Update
+      stock_left: "%{count}%{unit} in stock"
+      confirm_order: Confirm this order?
+      confirm_clear: Clear all items from this order?
+      remove: Remove
+    orders:
+      title: Order History
+      empty: No orders yet.
+      order_no: Order #
+      datetime: Date
+      status: Status
+      total: Total
+      detail: Details
+      show_title: "Order #%{id}"
+      franchise: Franchisee
+      address: Delivery address
+      ordered_at: Ordered at
+      cancel: Cancel order
+      list: Back to orders
+      confirm_cancel: Cancel this order? Stock will be restored.
+    admin:
+      dashboard:
+        title: HQ Dashboard
+        franchises: Franchisees
+        products: Products
+        pending_orders: Pending
+        pending_section: Pending orders
+        no_pending: No pending orders.
+        low_stock: Low stock (10 or less)
+        no_low_stock: No low-stock products.
+        category: Category
+        stock: Stock
+        edit: Edit
+      products:
+        title: Product management
+        new: New product
+        name: Product
+        category: Category
+        unit_price: Unit price
+        stock: Stock
+        status: Status
+        active: Active
+        inactive: Inactive
+        delete: Delete
+        new_title: New product
+        edit_title: Edit product
+        save: Save
+        list: Back to list
+        confirm_delete: Delete this product?
+        form:
+          name: Name
+          category: Category
+          category_hint: e.g. buns, patties, fries, drinks
+          unit_price: Unit price (USD)
+          stock: Stock
+          unit: Unit
+          active: Availability
+      franchises:
+        title: Franchisee management
+        name: Franchisee
+        address: Address
+        owner_email: Franchisee email
+        recent_orders: Recent orders
+        no_orders: No orders yet.
+        edit_title: Edit franchisee
+        save: Save
+        cancel: Cancel
+      orders:
+        title: Order management
+        all: All
+        order_no: "#"
+        franchise: Franchisee
+        orderer: Ordered by
+        show_title: "Order #%{id}"
+        change_status: Change status
+    mailer:
+      subject: "[Order] #%{id} - %{name}"
+      title: Order confirmation & invoice
+      greeting: "Dear %{name} franchisee, your order has been received."
+      order_no: Order #
+      ordered_at: Ordered at
+      address: Delivery address
+      status: Status
+      items: Order items
+      item: Item
+      unit_price: Unit price
+      quantity: Qty
+      subtotal: Subtotal
+      invoice: Invoice
+      issued_at: "Issued: %{date}"
+      supply_amount: Subtotal
+      tax: VAT (10%)
+      grand_total: Total
+      delivery_note: Shipment expected within 2–3 business days.
+      text_greeting: "Dear %{name} franchisee, order #%{id} has been received."
+      text_items: "[Order items]"
+      text_invoice: "[Invoice]"
+    errors:
+      empty_cart: Cart is empty
+      product_not_found: Product not found
+      insufficient_stock: "Insufficient stock for %{name} (%{stock} remaining)"
+      not_orderable: "%{name} cannot be ordered"

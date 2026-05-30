@@ -1,0 +1,30 @@
+<% content_for :title, t("app.orders.title") %>
+
+<h1><%= t("app.orders.title") %></h1>
+
+<% if @orders.empty? %>
+  <div class="card"><p><%= t("app.orders.empty") %></p></div>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th><%= t("app.orders.order_no") %></th>
+        <th><%= t("app.orders.datetime") %></th>
+        <th><%= t("app.orders.status") %></th>
+        <th><%= t("app.orders.total") %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @orders.each do |order| %>
+        <tr>
+          <td>#<%= order.id %></td>
+          <td><%= l(order.created_at, format: :long) %></td>
+          <td><span class="badge badge-<%= order.status %>"><%= order.status_label %></span></td>
+          <td><%= format_money(order.total_amount) %></td>
+          <td><%= link_to t("app.orders.detail"), order_path(order) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -1,0 +1,30 @@
+<h1><%= t("app.admin.products.title") %></h1>
+<%= link_to t("app.admin.products.new"), new_admin_product_path, class: "btn btn-primary" %>
+
+<table style="margin-top:1rem">
+  <thead>
+    <tr>
+      <th><%= t("app.admin.products.name") %></th>
+      <th><%= t("app.admin.products.category") %></th>
+      <th><%= t("app.admin.products.unit_price") %></th>
+      <th><%= t("app.admin.products.stock") %></th>
+      <th><%= t("app.admin.products.status") %></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= product.category %></td>
+        <td><%= format_money(product.unit_price) %></td>
+        <td><%= product.stock %><%= product.unit %></td>
+        <td><%= product.active? ? t("app.admin.products.active") : t("app.admin.products.inactive") %></td>
+        <td class="actions">
+          <%= link_to t("app.admin.dashboard.edit"), edit_admin_product_path(product), class: "btn btn-secondary" %>
+          <%= button_to t("app.admin.products.delete"), admin_product_path(product), method: :delete, class: "btn btn-danger", data: { turbo_confirm: t("app.admin.products.confirm_delete") } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

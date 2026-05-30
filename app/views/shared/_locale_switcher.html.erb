@@ -1,0 +1,10 @@
+<div class="locale-switcher">
+  <% I18n.available_locales.each do |locale| %>
+    <%= button_to locale_name(locale),
+          locale_path,
+          method: :patch,
+          params: { locale: locale },
+          class: "btn btn-locale #{'active' if I18n.locale == locale}",
+          form: { style: "display:inline" } %>
+  <% end %>
+</div>

@@ -1,0 +1,59 @@
+<h1><%= t("app.admin.dashboard.title") %></h1>
+
+<div class="stats">
+  <div class="stat-card">
+    <div class="number"><%= @franchise_count %></div>
+    <div><%= t("app.admin.dashboard.franchises") %></div>
+  </div>
+  <div class="stat-card">
+    <div class="number"><%= @product_count %></div>
+    <div><%= t("app.admin.dashboard.products") %></div>
+  </div>
+  <div class="stat-card">
+    <div class="number"><%= @pending_orders.size %></div>
+    <div><%= t("app.admin.dashboard.pending_orders") %></div>
+  </div>
+</div>
+
+<h2><%= t("app.admin.dashboard.pending_section") %></h2>
+<% if @pending_orders.any? %>
+  <table>
+    <thead>
+      <tr><th>#</th><th><%= t("app.admin.orders.franchise") %></th><th><%= t("app.orders.total") %></th><th><%= t("app.orders.datetime") %></th><th></th></tr>
+    </thead>
+    <tbody>
+      <% @pending_orders.each do |order| %>
+        <tr>
+          <td>#<%= order.id %></td>
+          <td><%= order.franchise.name %></td>
+          <td><%= format_money(order.total_amount) %></td>
+          <td><%= l(order.created_at, format: :short) %></td>
+          <td><%= link_to t("app.orders.detail"), admin_order_path(order) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="card"><p><%= t("app.admin.dashboard.no_pending") %></p></div>
+<% end %>
+
+<h2><%= t("app.admin.dashboard.low_stock") %></h2>
+<% if @low_stock_products.any? %>
+  <table>
+    <thead>
+      <tr><th><%= t("app.admin.products.name") %></th><th><%= t("app.admin.dashboard.category") %></th><th><%= t("app.admin.dashboard.stock") %></th><th></th></tr>
+    </thead>
+    <tbody>
+      <% @low_stock_products.each do |product| %>
+        <tr>
+          <td><%= product.name %></td>
+          <td><%= product.category %></td>
+          <td><%= product.stock %><%= product.unit %></td>
+          <td><%= link_to t("app.admin.dashboard.edit"), edit_admin_product_path(product) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="card"><p><%= t("app.admin.dashboard.no_low_stock") %></p></div>
+<% end %>

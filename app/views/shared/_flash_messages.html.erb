@@ -1,0 +1,7 @@
+<% if local_assigns[:message].present? %>
+  <div class="flash <%= local_assigns[:type] || :notice %>"><%= message %></div>
+<% else %>
+  <% flash.each do |type, msg| %>
+    <div class="flash <%= type %>"><%= msg %></div>
+  <% end %>
+<% end %>

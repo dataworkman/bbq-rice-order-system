@@ -1,0 +1,39 @@
+<% content_for :title, t("app.orders.show_title", id: @order.id) %>
+
+<h1><%= t("app.orders.show_title", id: @order.id) %></h1>
+
+<div class="card">
+  <p><strong><%= t("app.orders.franchise") %>:</strong> <%= @order.franchise.name %></p>
+  <p><strong><%= t("app.orders.address") %>:</strong> <%= @order.franchise.address %></p>
+  <p><strong><%= t("app.orders.ordered_at") %>:</strong> <%= l(@order.created_at, format: :long) %></p>
+  <p><strong><%= t("app.orders.status") %>:</strong> <span class="badge badge-<%= @order.status %>"><%= @order.status_label %></span></p>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th><%= t("app.cart.item") %></th>
+      <th><%= t("app.cart.unit_price") %></th>
+      <th><%= t("app.cart.quantity") %></th>
+      <th><%= t("app.cart.subtotal") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order.order_items.includes(:product).each do |item| %>
+      <tr>
+        <td><%= item.product.name %></td>
+        <td><%= format_money(item.unit_price) %></td>
+        <td><%= item.quantity %><%= item.product.unit %></td>
+        <td><%= format_money(item.subtotal) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="card">
+  <p><strong><%= t("app.cart.total", amount: format_money(@order.total_amount)) %></strong></p>
+  <% if @order.cancellable? %>
+    <%= button_to t("app.orders.cancel"), order_path(@order), method: :delete, class: "btn btn-danger", data: { turbo_confirm: t("app.orders.confirm_cancel") } %>
+  <% end %>
+  <%= link_to t("app.orders.list"), orders_path, class: "btn btn-secondary" %>
+</div>
