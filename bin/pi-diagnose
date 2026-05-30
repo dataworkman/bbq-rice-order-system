@@ -40,8 +40,15 @@ curl -sS -o /dev/null -w "HTTP %{http_code}\n" \
   "http://${LAN_IP}:3000/login" || echo "FAILED"
 
 echo
-echo "=== Last 20 log lines ==="
-docker compose logs web --tail 20 2>/dev/null
+echo "=== Last 40 log lines ==="
+docker compose logs web --tail 40 2>/dev/null
+
+if docker compose ps 2>/dev/null | grep -q Restarting; then
+  echo
+  echo "=== Container is crash-looping. Run: ==="
+  echo "docker compose logs web --tail 100"
+  echo "sudo chown -R 1000:1000 \$(docker volume inspect bbq-rice-order-system_sqlite_data -f '{{.Mountpoint}}')"
+fi
 
 echo
 echo "=== Try in browser ==="

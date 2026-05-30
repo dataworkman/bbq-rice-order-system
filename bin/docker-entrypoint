@@ -1,8 +1,10 @@
 #!/bin/bash -e
 
-# Prepare DB before starting the web server (any rails server command variant).
+mkdir -p /rails/storage /rails/log /rails/tmp/pids /rails/tmp/cache /rails/tmp/sockets
+chown -R rails:rails /rails/storage /rails/log /rails/tmp
+
 if [[ "$*" == *"server"* ]]; then
-  ./bin/rails db:prepare
+  gosu rails:rails ./bin/rails db:prepare
 fi
 
-exec "$@"
+exec gosu rails:rails "$@"
