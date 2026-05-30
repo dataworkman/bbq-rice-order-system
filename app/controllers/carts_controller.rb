@@ -9,7 +9,7 @@ class CartsController < ApplicationController
     @product = find_cart_product
     return unless @product
 
-    @quantity_added = [params[:quantity].to_i, 1].max
+    @quantity_added = [ params[:quantity].to_i, 1 ].max
 
     unless @product.orderable?
       return respond_with_flash(alert: t("app.flash.out_of_stock", name: @product.name))
@@ -122,7 +122,7 @@ class CartsController < ApplicationController
       )
     end
 
-    refresh_products = products.presence || [product].compact
+    refresh_products = products.presence || [ product ].compact
     refresh_products.each do |p|
       qty = (p.id == product&.id) ? quantity_input : 1
       streams << turbo_stream.replace(

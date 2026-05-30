@@ -9,9 +9,9 @@ Rails.application.routes.draw do
 
   root "products#index"
 
-  resources :products, only: [:index]
+  resources :products, only: [ :index ]
 
-  resource :cart, only: [:show] do
+  resource :cart, only: [ :show ] do
     post :add
     patch :update
     delete :clear
