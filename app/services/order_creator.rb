@@ -44,6 +44,7 @@ class OrderCreator
       line_items.each do |item|
         order.order_items.create!(
           product: item[:product],
+          item_number: item[:product].item_number,
           quantity: item[:quantity],
           unit_price: item[:unit_price]
         )

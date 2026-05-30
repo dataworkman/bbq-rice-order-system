@@ -10,11 +10,12 @@
 
 <table>
   <thead>
-    <tr><th><%= t("app.mailer.item") %></th><th><%= t("app.mailer.unit_price") %></th><th><%= t("app.mailer.quantity") %></th><th><%= t("app.mailer.subtotal") %></th></tr>
+    <tr><th><%= t("app.products.item_number") %></th><th><%= t("app.mailer.item") %></th><th><%= t("app.mailer.unit_price") %></th><th><%= t("app.mailer.quantity") %></th><th><%= t("app.mailer.subtotal") %></th></tr>
   </thead>
   <tbody>
     <% @order.order_items.includes(:product).each do |item| %>
       <tr>
+        <td><code><%= item.display_item_number %></code></td>
         <td><%= item.product.name %></td>
         <td><%= format_money(item.unit_price) %></td>
         <td><%= item.quantity %><%= item.product.unit %></td>

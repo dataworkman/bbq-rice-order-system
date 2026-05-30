@@ -3,7 +3,7 @@ module Admin
     before_action :set_product, only: %i[edit update destroy]
 
     def index
-      @products = Product.order(:category, :name)
+      @products = Product.by_item_number
     end
 
     def new
@@ -41,11 +41,12 @@ module Admin
     private
 
     def set_product
-      @product = Product.find(params[:id])
+      @product = Product.find_by(id: params[:id])
+      redirect_to admin_products_path, alert: t("app.errors.owner.not_found") if @product.nil?
     end
 
     def product_params
-      params.require(:product).permit(:name, :category, :unit_price_dollars, :stock, :unit, :active)
+      params.require(:product).permit(:item_number, :name, :category, :unit_price_dollars, :stock, :unit, :active)
     end
   end
 end

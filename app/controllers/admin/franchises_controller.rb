@@ -24,7 +24,8 @@ module Admin
     private
 
     def set_franchise
-      @franchise = Franchise.find(params[:id])
+      @franchise = Franchise.find_by(id: params[:id])
+      redirect_to admin_franchises_path, alert: t("app.errors.owner.not_found") if @franchise.nil?
     end
 
     def franchise_params

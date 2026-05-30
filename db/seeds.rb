@@ -43,24 +43,26 @@ franchise_data.each do |name, address, email|
 end
 
 # unit_price is stored in cents (e.g. 45 = $0.45)
+# [item_number, name, category, price_cents, stock, unit]
 products = [
-  ["Burger Bun", "Buns & Rolls", 45, 500, "ea"],
-  ["Chicken Patty", "Patties", 120, 200, "ea"],
-  ["Beef Patty", "Patties", 150, 150, "ea"],
-  ["Frozen French Fries", "Fries", 4800, 80, "box"],
-  ["Cheese Slice", "Cheese", 8, 0, "slice"],
-  ["Romaine Lettuce", "Produce", 450, 40, "lb"],
-  ["Tomato", "Produce", 550, 35, "lb"],
-  ["Cola Syrup", "Beverages", 12_000, 25, "gal"],
-  ["Ketchup", "Sauces", 550, 60, "jug"],
-  ["Mustard", "Sauces", 480, 55, "jug"],
-  ["Paper Cups (L)", "Packaging", 1500, 100, "box"],
-  ["Napkins", "Packaging", 800, 70, "box"]
+  ["BUN-001", "Burger Bun", "Buns & Rolls", 45, 500, "ea"],
+  ["PAT-001", "Chicken Patty", "Patties", 120, 200, "ea"],
+  ["PAT-002", "Beef Patty", "Patties", 150, 150, "ea"],
+  ["FRI-001", "Frozen French Fries", "Fries", 4800, 80, "box"],
+  ["CHE-001", "Cheese Slice", "Cheese", 8, 0, "slice"],
+  ["PRO-001", "Romaine Lettuce", "Produce", 450, 40, "lb"],
+  ["PRO-002", "Tomato", "Produce", 550, 35, "lb"],
+  ["BEV-001", "Cola Syrup", "Beverages", 12_000, 25, "gal"],
+  ["SAU-001", "Ketchup", "Sauces", 550, 60, "jug"],
+  ["SAU-002", "Mustard", "Sauces", 480, 55, "jug"],
+  ["PKG-001", "Paper Cups (L)", "Packaging", 1500, 100, "box"],
+  ["PKG-002", "Napkins", "Packaging", 800, 70, "box"]
 ]
 
 puts "Creating products..."
-products.each do |name, category, price_cents, stock, unit|
+products.each do |item_number, name, category, price_cents, stock, unit|
   Product.create!(
+    item_number: item_number,
     name: name,
     category: category,
     unit_price: price_cents,

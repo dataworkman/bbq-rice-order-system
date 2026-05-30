@@ -9,6 +9,7 @@
     <table class="order-summary-table">
       <thead>
         <tr>
+          <th><%= t("app.products.item_number") %></th>
           <th><%= t("app.cart.item") %></th>
           <th><%= t("app.cart.unit_price") %></th>
           <th><%= t("app.cart.quantity") %></th>
@@ -21,6 +22,7 @@
           <% product = @cart_products[product_id] %>
           <% next unless product %>
           <tr>
+            <td><code><%= product.item_number %></code></td>
             <td><%= product.name %></td>
             <td><%= format_money(product.unit_price) %></td>
             <td>

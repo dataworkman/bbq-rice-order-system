@@ -12,4 +12,8 @@ class OrderItem < ApplicationRecord
   def formatted_subtotal
     ApplicationController.helpers.format_money(subtotal)
   end
+
+  def display_item_number
+    item_number.presence || product&.item_number
+  end
 end

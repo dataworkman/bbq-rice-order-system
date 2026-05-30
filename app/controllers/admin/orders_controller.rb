@@ -29,7 +29,8 @@ module Admin
     private
 
     def set_order
-      @order = Order.find(params[:id])
+      @order = Order.find_by(id: params[:id])
+      redirect_to admin_orders_path, alert: t("app.flash.order_not_found") if @order.nil?
     end
   end
 end

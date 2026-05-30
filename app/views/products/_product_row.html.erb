@@ -1,6 +1,7 @@
 <% in_cart = cart_quantity_for(product) %>
 <% qty_value = local_assigns.fetch(:quantity_input, 1) %>
 <tr id="<%= dom_id(product, :row) %>" class="product-row <%= 'out-of-stock' unless product.orderable? %> <%= 'in-cart' if in_cart.positive? %>">
+  <td class="product-item-number"><code><%= product.item_number %></code></td>
   <td class="product-name">
     <%= product.name %>
     <% if in_cart.positive? %>

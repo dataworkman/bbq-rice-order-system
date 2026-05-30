@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Cart
+  include ErrorHandling
   include ActionView::RecordIdentifier
 
   allow_browser versions: :modern
@@ -17,7 +18,20 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
+    return @current_user if defined?(@current_user)
+
+    unless session[:user_id]
+      @current_user = nil
+      return
+    end
+
+    user = User.find_by(id: session[:user_id])
+    if user.nil?
+      session.delete(:user_id)
+      @current_user = nil
+    else
+      @current_user = user
+    end
   end
 
   def logged_in?

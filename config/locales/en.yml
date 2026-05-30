@@ -61,7 +61,7 @@ en:
       out_of_stock: "%{name} is out of stock and cannot be ordered"
       exceeds_stock: "Cannot exceed stock for %{name} (%{stock}%{unit} available)"
       order_placed: Order placed. A confirmation email will be sent.
-      order_not_cancellable: This order cannot be cancelled
+      order_not_found: Order not found. It may have been removed or the link is outdated.
       order_cancelled: "Order #%{id} has been cancelled"
       product_created: Product created
       product_updated: Product updated
@@ -81,6 +81,7 @@ en:
       test_password: "Password: %{password}"
     products:
       title: Order Products
+      item_number: Item #
       add: Add
       out_of_stock: Out of stock
       no_stock: No stock — ordering disabled
@@ -149,6 +150,7 @@ en:
         list: Back to list
         confirm_delete: Delete this product?
         form:
+          item_number: Item number
           name: Name
           category: Category
           category_hint: e.g. buns, patties, fries, drinks
@@ -197,6 +199,21 @@ en:
       text_items: "[Order items]"
       text_invoice: "[Invoice]"
     errors:
+      page_title: Something went wrong
+      back_home: Back to home
+      owner:
+        not_found: The page or item you requested is no longer available.
+        bad_request: Your request could not be processed. Please try again.
+        invalid: Some information could not be saved. Please check and try again.
+        session_expired: Your session has expired. Please sign in again.
+        unexpected: Something went wrong. Please try again in a moment.
+        product_not_found: This product is no longer available.
+      admin:
+        not_found: Record not found. It may have been deleted.
+        bad_request: Invalid request parameters.
+        invalid: Validation failed.
+        session_expired: Session expired. Please sign in again.
+        unexpected: An unexpected error occurred. Check the logs for details.
       empty_cart: Cart is empty
       product_not_found: Product not found
       insufficient_stock: "Insufficient stock for %{name} (%{stock} remaining)"

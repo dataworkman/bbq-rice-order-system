@@ -4,6 +4,10 @@
   <% end %>
 
   <div class="form-group">
+    <%= f.label :item_number, t("app.admin.products.form.item_number") %>
+    <%= f.text_field :item_number, required: true, placeholder: "BUN-001" %>
+  </div>
+  <div class="form-group">
     <%= f.label :name, t("app.admin.products.form.name") %>
     <%= f.text_field :name, required: true %>
   </div>

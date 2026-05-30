@@ -36,6 +36,7 @@ class OrdersController < ApplicationController
   private
 
   def set_order
-    @order = current_user.franchise.orders.find(params[:id])
+    @order = current_user.franchise.orders.find_by(id: params[:id])
+    redirect_to orders_path, alert: t("app.flash.order_not_found") if @order.nil?
   end
 end

@@ -61,7 +61,7 @@ ko:
       out_of_stock: "%{name}은(는) 재고가 없어 주문할 수 없습니다"
       exceeds_stock: "%{name} 재고(%{stock}%{unit})를 초과할 수 없습니다"
       order_placed: 주문이 접수되었습니다. 확인 메일이 발송됩니다
-      order_not_cancellable: 취소할 수 없는 주문입니다
+      order_not_found: 주문을 찾을 수 없습니다. 삭제되었거나 잘못된 링크일 수 있습니다.
       order_cancelled: "주문 #%{id}이(가) 취소되었습니다"
       product_created: 품목이 등록되었습니다
       product_updated: 품목이 수정되었습니다
@@ -81,6 +81,7 @@ ko:
       test_password: "비밀번호: %{password}"
     products:
       title: 품목 주문
+      item_number: 품목번호
       add: 담기
       out_of_stock: 품절
       no_stock: 재고 없음 — 주문 불가
@@ -149,6 +150,7 @@ ko:
         list: 목록
         confirm_delete: 삭제하시겠습니까?
         form:
+          item_number: 품목번호
           name: 품목명
           category: 카테고리
           category_hint: 번/패티/감자/음료 등
@@ -197,6 +199,21 @@ ko:
       text_items: "[주문 품목]"
       text_invoice: "[인보이스]"
     errors:
+      page_title: 문제가 발생했습니다
+      back_home: 홈으로 돌아가기
+      owner:
+        not_found: 요청하신 페이지 또는 품목을 찾을 수 없습니다.
+        bad_request: 요청을 처리할 수 없습니다. 다시 시도해 주세요.
+        invalid: 정보를 저장하지 못했습니다. 입력 내용을 확인해 주세요.
+        session_expired: 로그인 세션이 만료되었습니다. 다시 로그인해 주세요.
+        unexpected: 일시적인 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.
+        product_not_found: 해당 품목은 더 이상 주문할 수 없습니다.
+      admin:
+        not_found: 데이터를 찾을 수 없습니다. 삭제되었을 수 있습니다.
+        bad_request: 잘못된 요청입니다.
+        invalid: 유효성 검사에 실패했습니다.
+        session_expired: 세션이 만료되었습니다. 다시 로그인해 주세요.
+        unexpected: 예기치 않은 오류가 발생했습니다. 로그를 확인해 주세요.
       empty_cart: 장바구니가 비어 있습니다
       product_not_found: 품목을 찾을 수 없습니다
       insufficient_stock: "%{name} 재고가 부족합니다 (남은 재고: %{stock})"

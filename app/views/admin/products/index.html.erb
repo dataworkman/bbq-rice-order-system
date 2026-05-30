@@ -4,6 +4,7 @@
 <table style="margin-top:1rem">
   <thead>
     <tr>
+      <th><%= t("app.products.item_number") %></th>
       <th><%= t("app.admin.products.name") %></th>
       <th><%= t("app.admin.products.category") %></th>
       <th><%= t("app.admin.products.unit_price") %></th>
@@ -15,6 +16,7 @@
   <tbody>
     <% @products.each do |product| %>
       <tr>
+        <td><code><%= product.item_number %></code></td>
         <td><%= product.name %></td>
         <td><%= product.category %></td>
         <td><%= format_money(product.unit_price) %></td>

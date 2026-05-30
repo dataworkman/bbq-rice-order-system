@@ -6,7 +6,9 @@ class CartsController < ApplicationController
   end
 
   def add
-    @product = Product.find(params[:product_id])
+    @product = find_cart_product
+    return unless @product
+
     @quantity_added = [params[:quantity].to_i, 1].max
 
     unless @product.orderable?
@@ -36,7 +38,9 @@ class CartsController < ApplicationController
   end
 
   def update
-    @product = Product.find(params[:product_id])
+    @product = find_cart_product
+    return unless @product
+
     quantity = params[:quantity].to_i
 
     if quantity <= 0
@@ -90,15 +94,17 @@ class CartsController < ApplicationController
 
   private
 
+  def find_cart_product
+    product = Product.find_by(id: params[:product_id])
+    return product if product
+
+    respond_with_flash(alert: t("app.errors.owner.product_not_found"))
+    nil
+  end
+
   def respond_with_flash(alert:)
     respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.replace(
-          "flash-messages",
-          partial: "shared/flash_messages",
-          locals: { type: :alert, message: alert }
-        )
-      end
+      format.turbo_stream { render_friendly_flash(:alert, alert) }
       format.html { redirect_to products_path, alert: alert }
     end
   end

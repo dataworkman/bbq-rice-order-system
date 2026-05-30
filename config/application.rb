@@ -32,6 +32,8 @@ module Cursor
     config.i18n.fallbacks = true
     config.time_zone = "Seoul"
 
+    config.exceptions_app = routes
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
