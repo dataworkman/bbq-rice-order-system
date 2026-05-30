@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+
+if [[ ! -f .env.production ]]; then
+  echo "Create .env.production first:"
+  echo "  cp deploy/env.example .env.production"
+  echo "  nano .env.production"
+  exit 1
+fi
+
+if ! grep -q '^RAILS_MASTER_KEY=.\+' .env.production; then
+  echo "Set RAILS_MASTER_KEY in .env.production (from config/master.key)."
+  exit 1
+fi
+
+echo "Building and starting containers..."
+docker compose --env-file .env.production up -d --build
+
+echo "Waiting for health check..."
+sleep 5
+docker compose ps
+
+echo
+echo "Done. Open http://$(grep '^APP_HOST=' .env.production | cut -d= -f2):$(grep '^APP_PORT=' .env.production | cut -d= -f2 || echo 3000)"
+echo
+echo "First-time setup (loads demo accounts — skip on real production):"
+echo "  docker compose exec web bin/rails db:seed"
+echo
+echo "View logs:"
+echo "  docker compose logs -f web"

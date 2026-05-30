@@ -1,0 +1,30 @@
+# Production stack for Raspberry Pi (build and run on the Pi for native ARM64).
+#
+# Quick start on the Pi:
+#   git clone https://github.com/dataworkman/bbq-rice-order-system.git
+#   cd bbq-rice-order-system
+#   cp deploy/env.example .env.production
+#   nano .env.production          # set RAILS_MASTER_KEY and APP_HOST
+#   docker compose up -d --build
+#   docker compose exec web bin/rails db:seed   # first run only (demo data)
+
+services:
+  web:
+    build: .
+    image: bbq-rice-order-system:latest
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    ports:
+      - "${APP_PORT:-3000}:80"
+    volumes:
+      - sqlite_data:/rails/storage
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/up"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  sqlite_data:
