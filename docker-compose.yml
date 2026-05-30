@@ -15,6 +15,11 @@ services:
     restart: unless-stopped
     env_file:
       - .env.production
+    environment:
+      RAILS_ENV: production
+      DISABLE_HOST_CHECK: "true"
+      FORCE_SSL: "false"
+      ASSUME_SSL: "false"
     ports:
       - "${APP_PORT:-3000}:80"
     volumes:

@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Run on the Pi: bin/pi-diagnose
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+echo "=== IP addresses ==="
+hostname -I
+
+echo
+echo "=== Docker ==="
+docker compose ps 2>/dev/null || docker-compose ps
+
+echo
+echo "=== Container env (host/ssl) ==="
+docker compose exec web printenv 2>/dev/null | grep -E 'APP_HOST|DISABLE_HOST|FORCE_SSL|RAILS_MASTER' || echo "(container not running)"
+
+echo
+echo "=== curl localhost:3000/up ==="
+curl -sS -o /dev/null -w "HTTP %{http_code}\n" http://127.0.0.1:3000/up || echo "FAILED"
+
+echo
+echo "=== curl LAN IP ==="
+LAN_IP=$(hostname -I | awk '{print $1}')
+curl -sS -o /dev/null -w "HTTP %{http_code}\n" "http://${LAN_IP}:3000/up" || echo "FAILED"
+
+echo
+echo "=== curl /login (browser UA) ==="
+curl -sS -o /dev/null -w "HTTP %{http_code}\n" \
+  -A "Mozilla/5.0 Chrome/120.0.0.0" \
+  "http://${LAN_IP}:3000/login" || echo "FAILED"
+
+echo
+echo "=== Last 20 log lines ==="
+docker compose logs web --tail 20 2>/dev/null
+
+echo
+echo "=== Try in browser ==="
+echo "http://${LAN_IP}:3000"
