@@ -17,18 +17,18 @@ services:
       - .env.production
     environment:
       RAILS_ENV: production
-      PORT: "80"
+      PORT: "3000"
       DISABLE_HOST_CHECK: "true"
       FORCE_SSL: "false"
       ASSUME_SSL: "false"
-    # Puma directly on :80 — Thruster proxy caused 502 on slow Pi boots.
+    # Non-root container cannot bind port 80 — Puma listens on 3000.
     command: ["./bin/rails", "server", "-b", "0.0.0.0"]
     ports:
-      - "${APP_PORT:-3000}:80"
+      - "${APP_PORT:-3000}:3000"
     volumes:
       - sqlite_data:/rails/storage
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/up"]
+      test: ["CMD", "curl", "-f", "http://localhost:3000/up"]
       interval: 15s
       timeout: 10s
       retries: 10
