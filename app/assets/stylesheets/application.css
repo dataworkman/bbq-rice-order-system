@@ -391,10 +391,6 @@ th { background: #fff8e1; }
   color: var(--brand-gray);
 }
 
-.actions--stack-mobile form {
-  display: inline;
-}
-
 /* ---- Mobile (phones & small tablets) ---- */
 @media (max-width: 768px) {
   .container {
@@ -524,17 +520,17 @@ th { background: #fff8e1; }
     max-width: none;
   }
 
-  .actions:not(.actions--stack-mobile) {
+  .actions:not(.actions--stack-mobile):not(td) {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .actions:not(.actions--stack-mobile) .btn,
-  .actions:not(.actions--stack-mobile) form {
+  .actions:not(.actions--stack-mobile):not(td) .btn,
+  .actions:not(.actions--stack-mobile):not(td) form {
     width: 100%;
   }
 
-  .actions:not(.actions--stack-mobile) form button {
+  .actions:not(.actions--stack-mobile):not(td) form button {
     width: 100%;
   }
 
@@ -563,29 +559,37 @@ th { background: #fff8e1; }
   }
 
   .stack-table td {
-    display: grid;
-    grid-template-columns: 6.25rem 1fr;
-    gap: 0.25rem 0.75rem;
-    align-items: center;
-    padding: 0.45rem 0;
+    position: relative;
+    display: block;
+    min-height: 1.5rem;
+    padding: 0.45rem 0 0.45rem 7rem;
     border: none;
   }
 
   .stack-table td::before {
     content: attr(data-label);
+    position: absolute;
+    top: 0.45rem;
+    left: 0;
+    width: 6.25rem;
     font-weight: 600;
     font-size: 0.85rem;
     color: var(--muted);
   }
 
   .stack-table td[data-label=""] {
-    display: block;
+    padding-left: 0;
     padding-top: 0.75rem;
     margin-top: 0.35rem;
     border-top: 1px solid var(--border);
   }
 
   .stack-table td[data-label=""]::before {
+    display: none;
+  }
+
+  /* Out-of-stock cards already show a badge; hide the disabled action row */
+  .stack-table .out-of-stock > .stack-table__actions {
     display: none;
   }
 
@@ -599,10 +603,6 @@ th { background: #fff8e1; }
     width: 100%;
   }
 
-  .stack-table .stack-table__qty-form {
-    flex-direction: row;
-  }
-
   .stack-table .stack-table__actions input[type="number"] {
     flex: 1 1 5rem;
     width: auto;
@@ -614,37 +614,24 @@ th { background: #fff8e1; }
   }
 
   /* Admin / wide tables: horizontal scroll */
-  .table-scroll {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    margin-bottom: 1rem;
-  }
-
-  .table-scroll table {
-    min-width: 32rem;
-  }
-
-  .container > table:not(.stack-table),
-  .container h2 + table:not(.stack-table),
-  .container .card + table:not(.stack-table),
-  .container table:not(.stack-table):not(.order-summary-table) {
+  .container table:not(.stack-table) {
     display: block;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     max-width: 100%;
   }
 
-  .container > table:not(.stack-table) thead,
-  .container h2 + table:not(.stack-table) thead,
-  .container .card + table:not(.stack-table) thead,
-  .container table:not(.stack-table):not(.order-summary-table) thead,
-  .container > table:not(.stack-table) tbody,
-  .container h2 + table:not(.stack-table) tbody,
-  .container .card + table:not(.stack-table) tbody,
-  .container table:not(.stack-table):not(.order-summary-table) tbody {
-    display: table;
-    width: 100%;
-    min-width: 32rem;
+  /* Keep short cells intact so wide tables scroll instead of crushing columns */
+  .container table:not(.stack-table) th,
+  .container table:not(.stack-table) .btn,
+  .container table:not(.stack-table) .badge,
+  .container table:not(.stack-table) code {
+    white-space: nowrap;
+  }
+
+  .container table:not(.stack-table) th,
+  .container table:not(.stack-table) td {
+    word-break: keep-all;
   }
 
   th, td {

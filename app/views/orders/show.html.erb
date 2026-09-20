@@ -35,9 +35,9 @@
 <div class="card">
   <p><strong><%= t("app.cart.total", amount: format_money(@order.total_amount)) %></strong></p>
   <div class="actions actions--stack-mobile">
-  <% if @order.cancellable? %>
-    <%= button_to t("app.orders.cancel"), order_path(@order), method: :delete, class: "btn btn-danger", data: { turbo_confirm: t("app.orders.confirm_cancel") } %>
-  <% end %>
-  <%= link_to t("app.orders.list"), orders_path, class: "btn btn-secondary" %>
+    <% if @order.cancellable? %>
+      <%= button_to t("app.orders.cancel"), order_path(@order), method: :delete, class: "btn btn-danger", data: { turbo_confirm: t("app.orders.confirm_cancel") } %>
+    <% end %>
+    <%= link_to t("app.orders.list"), orders_path, class: "btn btn-secondary" %>
   </div>
 </div>

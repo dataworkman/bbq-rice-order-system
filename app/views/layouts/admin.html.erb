@@ -21,7 +21,7 @@
       <%= link_to t("app.nav.users"), admin_users_path %>
       <%= link_to t("app.nav.account"), edit_account_path %>
       <%= link_to t("app.nav.owner_view"), root_path %>
-      <%= button_to t("app.nav.logout"), logout_path, method: :delete, class: "btn btn-secondary", form: { style: "display:inline", data: { action: "click->nav#close" } } %>
+      <%= button_to t("app.nav.logout"), logout_path, method: :delete, class: "btn btn-secondary", form: { style: "display:inline" } %>
     <% end %>
 
     <main class="container">

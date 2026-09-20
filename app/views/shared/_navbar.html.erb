@@ -1,4 +1,6 @@
-<header class="navbar" data-controller="nav">
+<header class="navbar"
+        data-controller="nav"
+        data-action="keydown.esc@window->nav#close click@window->nav#closeOnOutsideClick resize@window->nav#closeOnDesktop">
   <div class="navbar__bar">
     <div class="brand">
       <%= render "shared/brand_logo", logo_path: local_assigns.fetch(:logo_path) %>

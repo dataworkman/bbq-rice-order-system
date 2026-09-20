@@ -188,6 +188,7 @@ ko:
       no_stock: 재고 없음 — 주문 불가
       stock: "재고: %{count}%{unit}"
       in_cart: "담음: %{count}%{unit}"
+      stock_label: 재고
     cart:
       title: 장바구니
       summary_title: 발주 품목
