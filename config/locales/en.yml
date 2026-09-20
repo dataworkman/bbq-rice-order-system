@@ -188,6 +188,7 @@ en:
       no_stock: No stock — ordering disabled
       stock: "Stock: %{count}%{unit}"
       in_cart: "In order: %{count}%{unit}"
+      stock_label: Stock
     cart:
       title: Cart
       summary_title: Order summary

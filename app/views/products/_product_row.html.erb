@@ -9,7 +9,7 @@
     <% end %>
   </td>
   <td data-label="<%= t("app.cart.unit_price") %>"><%= format_money(product.unit_price) %> / <%= product.unit %></td>
-  <td data-label="<%= t("app.admin.dashboard.stock") %>">
+  <td data-label="<%= t("app.products.stock_label") %>">
     <% if product.orderable? %>
       <%= product.stock %><%= product.unit %>
     <% else %>
